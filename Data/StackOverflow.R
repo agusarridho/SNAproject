@@ -1,6 +1,8 @@
 library(dplyr)
 library(lubridate)
 
+###*** Sports ***###
+
 temp = list.files(pattern="*.csv")
 list2env(
   lapply(setNames(temp, make.names(gsub("*.csv$", "", temp))), 
@@ -143,3 +145,15 @@ Freq.Comm_2016 = Comments %>%
   summarise(Frequency=n()) %>%
   filter(!is.na(X_UserId)) %>%
   arrange(desc(Frequency))
+
+temp_Answers = Answers %>% 
+  select(X_Id, X_OwnerUserId) %>%
+  rename(AnswerId = X_Id, AnswerUserId = X_OwnerUserId)
+
+temp_Answered_Questions = Answered_Questions %>% 
+  select(X_AcceptedAnswerId, X_OwnerUserId) %>%
+  rename(AnswerId = X_AcceptedAnswerId, QuestionUserId = X_OwnerUserId)
+
+QA = merge(temp_Answers, temp_Answered_Questions, by='AnswerId')
+
+write.csv(QA, file = 'QA.csv', row.names = F)
