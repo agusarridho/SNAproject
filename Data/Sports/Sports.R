@@ -151,6 +151,27 @@ temp_Answered_Questions = Answered_Questions %>%
 QA = merge(temp_Answers, temp_Answered_Questions, by='AnswerId')
 QA$AnswerId = NULL
 
+library(igraph)
+sports_g = graph.data.frame(QA, directed = T)
+
+sports_vertices = get.data.frame(sports_g, what='vertices')
+sports_vertices$betweenness = betweenness(sports_g)
+sports_vertices$closeness = closeness(sports_g)
+sports_vertices$in_degree = degree(sports_g, mode = 'in')
+sports_vertices$out_degree = degree(sports_g, mode = 'out')
+sports_vertices$eccentricity = eccentricity(sports_g)
+colnames(sports_vertices)[1] = 'user_id'
+
+sports_edges = get.data.frame(sports_g, what='edges')
+sports_edges$betweenness = edge_betweenness(sports_g)
+colnames(sports_edges)[1] = 'from_user_id'
+colnames(sports_edges)[2] = 'to_user_id'
+
+sports_users = merge(sports_vertices, Users, by.x = 'user_id', by.y = 'X_Id', all.x = T)
+
+write.csv(sports_users, file = 'sports_users.csv', row.names = F)
+write.csv(sports_edges, file = 'sports_edges.csv', row.names = F)
+
 # Check for NA
 sapply(QA, function(x) sum(is.na(x)))
 
