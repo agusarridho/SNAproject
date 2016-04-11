@@ -38,11 +38,57 @@ Answered_Questions = Questions %>% filter(!is.na(X_AcceptedAnswerId))
 Answers$X_CreationDate = as.Date(Answers$X_CreationDate)
 Answered_Questions$X_CreationDate = as.Date(Answered_Questions$X_CreationDate)
 Comments$X_CreationDate = as.Date(Comments$X_CreationDate)
+Questions$X_CreationDate = as.Date(Questions$X_CreationDate)
 
 # extract year from date columns
 Answers$Year = year(Answers$X_CreationDate)
 Answered_Questions$Year = year(Answered_Questions$X_CreationDate)
 Comments$Year = year(Comments$X_CreationDate)
+Questions$Year = year(Questions$X_CreationDate)
+
+# merge comments and questions
+temp_comments = Comments %>% 
+  select(X_PostId, X_UserId) %>%
+  rename(Question_Id = X_PostId, Commentator = X_UserId)
+temp_questions = Questions %>% 
+  select(X_Id, X_OwnerUserId, Year) %>%
+  rename(Question_Id = X_Id, AnswerSeeker = X_OwnerUserId)
+Comments_Questions = merge(temp_comments, temp_questions)
+Comments_Questions$Question_Id = NULL
+Comments_Questions_2012 = Comments_Questions %>% filter(Year == 2012)
+Comments_Questions_2013 = Comments_Questions %>% filter(Year == 2013)
+Comments_Questions_2014 = Comments_Questions %>% filter(Year == 2014)
+Comments_Questions_2015 = Comments_Questions %>% filter(Year == 2015)
+Comments_Questions_2016 = Comments_Questions %>% filter(Year == 2016)
+Comments_Questions$Year = NULL
+Comments_Questions_2012$Year = NULL
+Comments_Questions_2013$Year = NULL
+Comments_Questions_2014$Year = NULL
+Comments_Questions_2015$Year = NULL
+Comments_Questions_2016$Year = NULL
+rm(temp_questions, temp_comments)
+
+# merge comments and answers
+temp_comments = Comments %>% 
+  select(X_PostId, X_UserId) %>%
+  rename(Answer_Id = X_PostId, Commentator = X_UserId)
+temp_answers = Answers %>% 
+  select(X_Id, X_OwnerUserId, Year) %>%
+  rename(Answer_Id = X_Id, AnswerProvider = X_OwnerUserId)
+Comments_Answers = merge(temp_comments, temp_answers)
+Comments_Answers$Answer_Id = NULL
+Comments_Answers_2012 = Comments_Answers %>% filter(Year == 2012)
+Comments_Answers_2013 = Comments_Answers %>% filter(Year == 2013)
+Comments_Answers_2014 = Comments_Answers %>% filter(Year == 2014)
+Comments_Answers_2015 = Comments_Answers %>% filter(Year == 2015)
+Comments_Answers_2016 = Comments_Answers %>% filter(Year == 2016)
+Comments_Answers$Year = NULL
+Comments_Answers_2012$Year = NULL
+Comments_Answers_2013$Year = NULL
+Comments_Answers_2014$Year = NULL
+Comments_Answers_2015$Year = NULL
+Comments_Answers_2016$Year = NULL
+rm(temp_answers, temp_comments)
 
 # show total number of each user's answered questions (all dataset and yearly)
 Freq.Ans_Quest = Answered_Questions %>% 
@@ -162,6 +208,7 @@ temp_Answered_Questions = Answered_Questions %>%
   rename(AnswerId = X_AcceptedAnswerId, AnswerSeeker = X_OwnerUserId)
 
 QA = merge(temp_Answers, temp_Answered_Questions, by='AnswerId')
+QA$AnswerId = NULL
 QA_2012 = QA %>% filter(Year == 2012)
 QA_2013 = QA %>% filter(Year == 2013)
 QA_2014 = QA %>% filter(Year == 2014)
@@ -170,22 +217,17 @@ QA_2016 = QA %>% filter(Year == 2016)
 rm(temp_Answers, temp_Answered_Questions)
 
 # Removing columns AnswerId and Year
-QA$AnswerId = NULL
 QA$Year = NULL
-QA_2012$AnswerId = NULL
 QA_2012$Year = NULL
-QA_2013$AnswerId = NULL
 QA_2013$Year = NULL
-QA_2014$AnswerId = NULL
 QA_2014$Year = NULL
-QA_2015$AnswerId = NULL
 QA_2015$Year = NULL
-QA_2016$AnswerId = NULL
 QA_2016$Year = NULL
 
 ###** Calculate Network's Scoring **###
 library(igraph)
 
+# For QA
 # all dataset
 sports_g = graph.data.frame(QA, directed = T)
 sports_vertices = get.data.frame(sports_g, what='vertices')
@@ -195,11 +237,6 @@ sports_vertices$in_degree = degree(sports_g, mode = 'in')
 sports_vertices$out_degree = degree(sports_g, mode = 'out')
 sports_vertices$eccentricity = eccentricity(sports_g)
 colnames(sports_vertices)[1] = 'user_id'
-
-sports_edges = get.data.frame(sports_g, what='edges')
-sports_edges$betweenness = edge_betweenness(sports_g)
-colnames(sports_edges)[1] = 'from_user_id'
-colnames(sports_edges)[2] = 'to_user_id'
 sports_users = merge(sports_vertices, Users, by.x = 'user_id', by.y = 'X_Id', all.x = T)
 
 # 2012 dataset
@@ -211,11 +248,6 @@ sports_2012_vertices$in_degree = degree(sports_2012_g, mode = 'in')
 sports_2012_vertices$out_degree = degree(sports_2012_g, mode = 'out')
 sports_2012_vertices$eccentricity = eccentricity(sports_2012_g)
 colnames(sports_2012_vertices)[1] = 'user_id'
-
-sports_2012_edges = get.data.frame(sports_2012_g, what='edges')
-sports_2012_edges$betweenness = edge_betweenness(sports_2012_g)
-colnames(sports_2012_edges)[1] = 'from_user_id'
-colnames(sports_2012_edges)[2] = 'to_user_id'
 sports_2012_users = merge(sports_2012_vertices, Users, by.x = 'user_id', by.y = 'X_Id', all.x = T)
 
 # 2013
@@ -227,11 +259,6 @@ sports_2013_vertices$in_degree = degree(sports_2013_g, mode = 'in')
 sports_2013_vertices$out_degree = degree(sports_2013_g, mode = 'out')
 sports_2013_vertices$eccentricity = eccentricity(sports_2013_g)
 colnames(sports_2013_vertices)[1] = 'user_id'
-
-sports_2013_edges = get.data.frame(sports_2013_g, what='edges')
-sports_2013_edges$betweenness = edge_betweenness(sports_2013_g)
-colnames(sports_2013_edges)[1] = 'from_user_id'
-colnames(sports_2013_edges)[2] = 'to_user_id'
 sports_2013_users = merge(sports_2013_vertices, Users, by.x = 'user_id', by.y = 'X_Id', all.x = T)
 
 # 2014
@@ -243,11 +270,6 @@ sports_2014_vertices$in_degree = degree(sports_2014_g, mode = 'in')
 sports_2014_vertices$out_degree = degree(sports_2014_g, mode = 'out')
 sports_2014_vertices$eccentricity = eccentricity(sports_2014_g)
 colnames(sports_2014_vertices)[1] = 'user_id'
-
-sports_2014_edges = get.data.frame(sports_2014_g, what='edges')
-sports_2014_edges$betweenness = edge_betweenness(sports_2014_g)
-colnames(sports_2014_edges)[1] = 'from_user_id'
-colnames(sports_2014_edges)[2] = 'to_user_id'
 sports_2014_users = merge(sports_2014_vertices, Users, by.x = 'user_id', by.y = 'X_Id', all.x = T)
 
 # 2015
@@ -259,11 +281,6 @@ sports_2015_vertices$in_degree = degree(sports_2015_g, mode = 'in')
 sports_2015_vertices$out_degree = degree(sports_2015_g, mode = 'out')
 sports_2015_vertices$eccentricity = eccentricity(sports_2015_g)
 colnames(sports_2015_vertices)[1] = 'user_id'
-
-sports_2015_edges = get.data.frame(sports_2015_g, what='edges')
-sports_2015_edges$betweenness = edge_betweenness(sports_2015_g)
-colnames(sports_2015_edges)[1] = 'from_user_id'
-colnames(sports_2015_edges)[2] = 'to_user_id'
 sports_2015_users = merge(sports_2015_vertices, Users, by.x = 'user_id', by.y = 'X_Id', all.x = T)
 
 # 2016
@@ -275,43 +292,177 @@ sports_2016_vertices$in_degree = degree(sports_2016_g, mode = 'in')
 sports_2016_vertices$out_degree = degree(sports_2016_g, mode = 'out')
 sports_2016_vertices$eccentricity = eccentricity(sports_2016_g)
 colnames(sports_2016_vertices)[1] = 'user_id'
-
-sports_2016_edges = get.data.frame(sports_2016_g, what='edges')
-sports_2016_edges$betweenness = edge_betweenness(sports_2016_g)
-colnames(sports_2016_edges)[1] = 'from_user_id'
-colnames(sports_2016_edges)[2] = 'to_user_id'
 sports_2016_users = merge(sports_2016_vertices, Users, by.x = 'user_id', by.y = 'X_Id', all.x = T)
+
+# for Comments_Questions
+# all dataset
+sportsCQ_g = graph.data.frame(Comments_Questions, directed = T)
+sportsCQ_vertices = get.data.frame(sportsCQ_g, what='vertices')
+sportsCQ_vertices$betweenness = betweenness(sportsCQ_g)
+sportsCQ_vertices$closeness = closeness(sportsCQ_g)
+sportsCQ_vertices$in_degree = degree(sportsCQ_g, mode = 'in')
+sportsCQ_vertices$out_degree = degree(sportsCQ_g, mode = 'out')
+sportsCQ_vertices$eccentricity = eccentricity(sportsCQ_g)
+colnames(sportsCQ_vertices)[1] = 'user_id'
+sportsCQ_users = merge(sportsCQ_vertices, Users, by.x = 'user_id', by.y = 'X_Id', all.x = T)
+
+# 2012 dataset
+sportsCQ_2012_g = graph.data.frame(Comments_Questions_2012, directed = T)
+sportsCQ_2012_vertices = get.data.frame(sportsCQ_2012_g, what='vertices')
+sportsCQ_2012_vertices$betweenness = betweenness(sportsCQ_2012_g)
+sportsCQ_2012_vertices$closeness = closeness(sportsCQ_2012_g)
+sportsCQ_2012_vertices$in_degree = degree(sportsCQ_2012_g, mode = 'in')
+sportsCQ_2012_vertices$out_degree = degree(sportsCQ_2012_g, mode = 'out')
+sportsCQ_2012_vertices$eccentricity = eccentricity(sportsCQ_2012_g)
+colnames(sportsCQ_2012_vertices)[1] = 'user_id'
+sportsCQ_2012_users = merge(sportsCQ_2012_vertices, Users, by.x = 'user_id', by.y = 'X_Id', all.x = T)
+
+# 2013
+sportsCQ_2013_g = graph.data.frame(Comments_Questions_2013, directed = T)
+sportsCQ_2013_vertices = get.data.frame(sportsCQ_2013_g, what='vertices')
+sportsCQ_2013_vertices$betweenness = betweenness(sportsCQ_2013_g)
+sportsCQ_2013_vertices$closeness = closeness(sportsCQ_2013_g)
+sportsCQ_2013_vertices$in_degree = degree(sportsCQ_2013_g, mode = 'in')
+sportsCQ_2013_vertices$out_degree = degree(sportsCQ_2013_g, mode = 'out')
+sportsCQ_2013_vertices$eccentricity = eccentricity(sportsCQ_2013_g)
+colnames(sportsCQ_2013_vertices)[1] = 'user_id'
+sportsCQ_2013_users = merge(sportsCQ_2013_vertices, Users, by.x = 'user_id', by.y = 'X_Id', all.x = T)
+
+# 2014
+sportsCQ_2014_g = graph.data.frame(Comments_Questions_2014, directed = T)
+sportsCQ_2014_vertices = get.data.frame(sportsCQ_2014_g, what='vertices')
+sportsCQ_2014_vertices$betweenness = betweenness(sportsCQ_2014_g)
+sportsCQ_2014_vertices$closeness = closeness(sportsCQ_2014_g)
+sportsCQ_2014_vertices$in_degree = degree(sportsCQ_2014_g, mode = 'in')
+sportsCQ_2014_vertices$out_degree = degree(sportsCQ_2014_g, mode = 'out')
+sportsCQ_2014_vertices$eccentricity = eccentricity(sportsCQ_2014_g)
+colnames(sportsCQ_2014_vertices)[1] = 'user_id'
+sportsCQ_2014_users = merge(sportsCQ_2014_vertices, Users, by.x = 'user_id', by.y = 'X_Id', all.x = T)
+
+# 2015
+sportsCQ_2015_g = graph.data.frame(Comments_Questions_2015, directed = T)
+sportsCQ_2015_vertices = get.data.frame(sportsCQ_2015_g, what='vertices')
+sportsCQ_2015_vertices$betweenness = betweenness(sportsCQ_2015_g)
+sportsCQ_2015_vertices$closeness = closeness(sportsCQ_2015_g)
+sportsCQ_2015_vertices$in_degree = degree(sportsCQ_2015_g, mode = 'in')
+sportsCQ_2015_vertices$out_degree = degree(sportsCQ_2015_g, mode = 'out')
+sportsCQ_2015_vertices$eccentricity = eccentricity(sportsCQ_2015_g)
+colnames(sportsCQ_2015_vertices)[1] = 'user_id'
+sportsCQ_2015_users = merge(sportsCQ_2015_vertices, Users, by.x = 'user_id', by.y = 'X_Id', all.x = T)
+
+# 2016
+sportsCQ_2016_g = graph.data.frame(Comments_Questions_2016, directed = T)
+sportsCQ_2016_vertices = get.data.frame(sportsCQ_2016_g, what='vertices')
+sportsCQ_2016_vertices$betweenness = betweenness(sportsCQ_2016_g)
+sportsCQ_2016_vertices$closeness = closeness(sportsCQ_2016_g)
+sportsCQ_2016_vertices$in_degree = degree(sportsCQ_2016_g, mode = 'in')
+sportsCQ_2016_vertices$out_degree = degree(sportsCQ_2016_g, mode = 'out')
+sportsCQ_2016_vertices$eccentricity = eccentricity(sportsCQ_2016_g)
+colnames(sportsCQ_2016_vertices)[1] = 'user_id'
+sportsCQ_2016_users = merge(sportsCQ_2016_vertices, Users, by.x = 'user_id', by.y = 'X_Id', all.x = T)
+
+# for Comments_Answers
+# all dataset
+sportsCA_g = graph.data.frame(Comments_Answers, directed = T)
+sportsCA_vertices = get.data.frame(sportsCA_g, what='vertices')
+sportsCA_vertices$betweenness = betweenness(sportsCA_g)
+sportsCA_vertices$closeness = closeness(sportsCA_g)
+sportsCA_vertices$in_degree = degree(sportsCA_g, mode = 'in')
+sportsCA_vertices$out_degree = degree(sportsCA_g, mode = 'out')
+sportsCA_vertices$eccentricity = eccentricity(sportsCA_g)
+colnames(sportsCA_vertices)[1] = 'user_id'
+sportsCA_users = merge(sportsCA_vertices, Users, by.x = 'user_id', by.y = 'X_Id', all.x = T)
+
+# 2012 dataset
+sportsCA_2012_g = graph.data.frame(Comments_Answers_2012, directed = T)
+sportsCA_2012_vertices = get.data.frame(sportsCA_2012_g, what='vertices')
+sportsCA_2012_vertices$betweenness = betweenness(sportsCA_2012_g)
+sportsCA_2012_vertices$closeness = closeness(sportsCA_2012_g)
+sportsCA_2012_vertices$in_degree = degree(sportsCA_2012_g, mode = 'in')
+sportsCA_2012_vertices$out_degree = degree(sportsCA_2012_g, mode = 'out')
+sportsCA_2012_vertices$eccentricity = eccentricity(sportsCA_2012_g)
+colnames(sportsCA_2012_vertices)[1] = 'user_id'
+sportsCA_2012_users = merge(sportsCA_2012_vertices, Users, by.x = 'user_id', by.y = 'X_Id', all.x = T)
+
+# 2013
+sportsCA_2013_g = graph.data.frame(Comments_Answers_2013, directed = T)
+sportsCA_2013_vertices = get.data.frame(sportsCA_2013_g, what='vertices')
+sportsCA_2013_vertices$betweenness = betweenness(sportsCA_2013_g)
+sportsCA_2013_vertices$closeness = closeness(sportsCA_2013_g)
+sportsCA_2013_vertices$in_degree = degree(sportsCA_2013_g, mode = 'in')
+sportsCA_2013_vertices$out_degree = degree(sportsCA_2013_g, mode = 'out')
+sportsCA_2013_vertices$eccentricity = eccentricity(sportsCA_2013_g)
+colnames(sportsCA_2013_vertices)[1] = 'user_id'
+sportsCA_2013_users = merge(sportsCA_2013_vertices, Users, by.x = 'user_id', by.y = 'X_Id', all.x = T)
+
+# 2014
+sportsCA_2014_g = graph.data.frame(Comments_Answers_2014, directed = T)
+sportsCA_2014_vertices = get.data.frame(sportsCA_2014_g, what='vertices')
+sportsCA_2014_vertices$betweenness = betweenness(sportsCA_2014_g)
+sportsCA_2014_vertices$closeness = closeness(sportsCA_2014_g)
+sportsCA_2014_vertices$in_degree = degree(sportsCA_2014_g, mode = 'in')
+sportsCA_2014_vertices$out_degree = degree(sportsCA_2014_g, mode = 'out')
+sportsCA_2014_vertices$eccentricity = eccentricity(sportsCA_2014_g)
+colnames(sportsCA_2014_vertices)[1] = 'user_id'
+sportsCA_2014_users = merge(sportsCA_2014_vertices, Users, by.x = 'user_id', by.y = 'X_Id', all.x = T)
+
+# 2015
+sportsCA_2015_g = graph.data.frame(Comments_Answers_2015, directed = T)
+sportsCA_2015_vertices = get.data.frame(sportsCA_2015_g, what='vertices')
+sportsCA_2015_vertices$betweenness = betweenness(sportsCA_2015_g)
+sportsCA_2015_vertices$closeness = closeness(sportsCA_2015_g)
+sportsCA_2015_vertices$in_degree = degree(sportsCA_2015_g, mode = 'in')
+sportsCA_2015_vertices$out_degree = degree(sportsCA_2015_g, mode = 'out')
+sportsCA_2015_vertices$eccentricity = eccentricity(sportsCA_2015_g)
+colnames(sportsCA_2015_vertices)[1] = 'user_id'
+sportsCA_2015_users = merge(sportsCA_2015_vertices, Users, by.x = 'user_id', by.y = 'X_Id', all.x = T)
+
+# 2016
+sportsCA_2016_g = graph.data.frame(Comments_Answers_2016, directed = T)
+sportsCA_2016_vertices = get.data.frame(sportsCA_2016_g, what='vertices')
+sportsCA_2016_vertices$betweenness = betweenness(sportsCA_2016_g)
+sportsCA_2016_vertices$closeness = closeness(sportsCA_2016_g)
+sportsCA_2016_vertices$in_degree = degree(sportsCA_2016_g, mode = 'in')
+sportsCA_2016_vertices$out_degree = degree(sportsCA_2016_g, mode = 'out')
+sportsCA_2016_vertices$eccentricity = eccentricity(sportsCA_2016_g)
+colnames(sportsCA_2016_vertices)[1] = 'user_id'
+sportsCA_2016_users = merge(sportsCA_2016_vertices, Users, by.x = 'user_id', by.y = 'X_Id', all.x = T)
 
 ###** Export to CSVs **###
 
 # all dataset
 write.csv(sports_users, file = 'sports_users.csv', row.names = F)
-write.csv(sports_edges, file = 'sports_edges.csv', row.names = F)
 write.csv(QA, file = 'QA.csv', row.names = F)
+write.csv(Comments_Answers, file = 'Comments_Answers.csv', row.names = F)
+write.csv(Comments_Questions, file = 'Comments_Questions.csv', row.names = F)
 
 # 2012
 write.csv(sports_2012_users, file = 'sports_2012_users.csv', row.names = F)
-write.csv(sports_2012_edges, file = 'sports_2012_edges.csv', row.names = F)
 write.csv(QA_2012, file = 'QA_2012.csv', row.names = F)
+write.csv(Comments_Answers_2012, file = 'Comments_Answers_2012.csv', row.names = F)
+write.csv(Comments_Questions_2012, file = 'Comments_Questions_2012.csv', row.names = F)
 
 # 2013
 write.csv(sports_2013_users, file = 'sports_2013_users.csv', row.names = F)
-write.csv(sports_2013_edges, file = 'sports_2013_edges.csv', row.names = F)
 write.csv(QA_2013, file = 'QA_2013.csv', row.names = F)
+write.csv(Comments_Answers_2013, file = 'Comments_Answers_2013.csv', row.names = F)
+write.csv(Comments_Questions_2013, file = 'Comments_Questions_2013.csv', row.names = F)
 
 # 2014
 write.csv(sports_2014_users, file = 'sports_2014_users.csv', row.names = F)
-write.csv(sports_2014_edges, file = 'sports_2014_edges.csv', row.names = F)
 write.csv(QA_2014, file = 'QA_2014.csv', row.names = F)
+write.csv(Comments_Answers_2014, file = 'Comments_Answers_2014.csv', row.names = F)
+write.csv(Comments_Questions_2014, file = 'Comments_Questions_2014.csv', row.names = F)
 
 # 2015
 write.csv(sports_2015_users, file = 'sports_2015_users.csv', row.names = F)
-write.csv(sports_2015_edges, file = 'sports_2015_edges.csv', row.names = F)
 write.csv(QA_2015, file = 'QA_2015.csv', row.names = F)
+write.csv(Comments_Answers_2015, file = 'Comments_Answers_2015.csv', row.names = F)
+write.csv(Comments_Questions_2015, file = 'Comments_Questions_2015.csv', row.names = F)
 
 # 2016
 write.csv(sports_2016_users, file = 'sports_2016_users.csv', row.names = F)
-write.csv(sports_2016_edges, file = 'sports_2016_edges.csv', row.names = F)
 write.csv(QA_2016, file = 'QA_2016.csv', row.names = F)
-
+write.csv(Comments_Answers_2016, file = 'Comments_Answers_2016.csv', row.names = F)
+write.csv(Comments_Questions_2016, file = 'Comments_Questions_2016.csv', row.names = F)
 
