@@ -24,36 +24,36 @@ Comments = Comments %>%
 # create table questions from table posts
 Questions = Posts %>% 
   filter(X_PostTypeId == 1) %>%
-  select(X_Id, X_AcceptedAnswerId, X_OwnerUserId, X_CreationDate)
-  
+  select(X_Id, X_AcceptedAnswerId, X_OwnerUserId, X_CreationDate) %>%
+  rename(Question = X_Id, AcceptedAnswer = X_AcceptedAnswerId, 
+         AnswerSeeker = X_OwnerUserId, QuestionDate = X_CreationDate)
+Questions$QuestionDate = as.Date(Questions$QuestionDate)
+Questions$Year = year(Questions$QuestionDate)
+
 # create table answers from table posts
 Answers = Posts %>% 
   filter(X_PostTypeId == 2) %>%
-  select(X_Id, X_ParentId, X_OwnerUserId, X_CreationDate)
+  select(X_Id, X_ParentId, X_OwnerUserId, X_CreationDate) %>%
+  rename(Answer = X_Id, Question = X_ParentId, 
+         AnswerProvider = X_OwnerUserId, AnswerDate = X_CreationDate)
+Answers$AnswerDate = as.Date(Answers$AnswerDate)
+Answers$Year = year(Answers$AnswerDate)
 
 # filter only answered questions from table questions
-Answered_Questions = Questions %>% filter(!is.na(X_AcceptedAnswerId))
+Answered_Questions = Questions %>% filter(!is.na(AcceptedAnswer))
 
 # format date columns
-Answers$X_CreationDate = as.Date(Answers$X_CreationDate)
-Answered_Questions$X_CreationDate = as.Date(Answered_Questions$X_CreationDate)
 Comments$X_CreationDate = as.Date(Comments$X_CreationDate)
-Questions$X_CreationDate = as.Date(Questions$X_CreationDate)
-
 # extract year from date columns
-Answers$Year = year(Answers$X_CreationDate)
-Answered_Questions$Year = year(Answered_Questions$X_CreationDate)
 Comments$Year = year(Comments$X_CreationDate)
-Questions$Year = year(Questions$X_CreationDate)
 
 # merge comments and questions
 temp_comments = Comments %>% 
   select(X_PostId, X_UserId) %>%
-  rename(Question_Id = X_PostId, Commentator = X_UserId)
+  rename(Question = X_PostId, Commentator = X_UserId)
 temp_questions = Questions %>% 
-  select(X_Id, X_OwnerUserId, Year) %>%
-  rename(Question_Id = X_Id, AnswerSeeker = X_OwnerUserId)
-Comments_Questions = merge(temp_comments, temp_questions)
+  select(Question, AnswerSeeker, Year)
+Comments_Questions = merge(temp_comments, temp_questions, by = 'Question')
 Comments_Questions$Question_Id = NULL
 Comments_Questions_2012 = Comments_Questions %>% filter(Year == 2012)
 Comments_Questions_2013 = Comments_Questions %>% filter(Year == 2013)
@@ -71,12 +71,11 @@ rm(temp_questions, temp_comments)
 # merge comments and answers
 temp_comments = Comments %>% 
   select(X_PostId, X_UserId) %>%
-  rename(Answer_Id = X_PostId, Commentator = X_UserId)
+  rename(Answer = X_PostId, Commentator = X_UserId)
 temp_answers = Answers %>% 
-  select(X_Id, X_OwnerUserId, Year) %>%
-  rename(Answer_Id = X_Id, AnswerProvider = X_OwnerUserId)
-Comments_Answers = merge(temp_comments, temp_answers)
-Comments_Answers$Answer_Id = NULL
+  select(Answer, AnswerProvider, Year)
+Comments_Answers = merge(temp_comments, temp_answers, by = 'Answer')
+Comments_Answers$Answer = NULL
 Comments_Answers_2012 = Comments_Answers %>% filter(Year == 2012)
 Comments_Answers_2013 = Comments_Answers %>% filter(Year == 2013)
 Comments_Answers_2014 = Comments_Answers %>% filter(Year == 2014)
@@ -92,73 +91,74 @@ rm(temp_answers, temp_comments)
 
 # show total number of each user's answered questions (all dataset and yearly)
 Freq.Ans_Quest = Answered_Questions %>% 
-  group_by(X_OwnerUserId) %>%
+  group_by(AnswerSeeker) %>%
   summarise(Frequency=n()) %>%
   arrange(desc(Frequency))
 
 Freq.Ans_Quest_2012 = Answered_Questions %>%
   filter(Year == 2012) %>%
-  group_by(X_OwnerUserId) %>%
+  group_by(AnswerSeeker) %>%
   summarise(Frequency=n()) %>%
   arrange(desc(Frequency))
 
 Freq.Ans_Quest_2013 = Answered_Questions %>%
   filter(Year == 2013) %>%
-  group_by(X_OwnerUserId) %>%
+  group_by(AnswerSeeker) %>%
   summarise(Frequency=n()) %>%
   arrange(desc(Frequency))
 
 Freq.Ans_Quest_2014 = Answered_Questions %>%
   filter(Year == 2014) %>%
-  group_by(X_OwnerUserId) %>%
+  group_by(AnswerSeeker) %>%
   summarise(Frequency=n()) %>%
   arrange(desc(Frequency))
 
 Freq.Ans_Quest_2015 = Answered_Questions %>%
   filter(Year == 2015) %>%
-  group_by(X_OwnerUserId) %>%
+  group_by(AnswerSeeker) %>%
   summarise(Frequency=n()) %>%
   arrange(desc(Frequency))
 
 Freq.Ans_Quest_2016 = Answered_Questions %>%
   filter(Year == 2016) %>%
-  group_by(X_OwnerUserId) %>%
+  group_by(AnswerSeeker) %>%
   summarise(Frequency=n()) %>%
   arrange(desc(Frequency))
 
+
 # show total number of each user's answers (all dataset and yearly)
 Freq.Ans = Answers %>% 
-  group_by(X_OwnerUserId) %>%
+  group_by(AnswerProvider) %>%
   summarise(Frequency=n()) %>%
   arrange(desc(Frequency))
 
 Freq.Ans_2012 = Answers %>% 
   filter(Year == 2012) %>%
-  group_by(X_OwnerUserId) %>%
+  group_by(AnswerProvider) %>%
   summarise(Frequency=n()) %>%
   arrange(desc(Frequency))
 
 Freq.Ans_2013 = Answers %>% 
   filter(Year == 2013) %>%
-  group_by(X_OwnerUserId) %>%
+  group_by(AnswerProvider) %>%
   summarise(Frequency=n()) %>%
   arrange(desc(Frequency))
 
 Freq.Ans_2014 = Answers %>% 
   filter(Year == 2014) %>%
-  group_by(X_OwnerUserId) %>%
+  group_by(AnswerProvider) %>%
   summarise(Frequency=n()) %>%
   arrange(desc(Frequency))
 
 Freq.Ans_2015 = Answers %>% 
   filter(Year == 2015) %>%
-  group_by(X_OwnerUserId) %>%
+  group_by(AnswerProvider) %>%
   summarise(Frequency=n()) %>%
   arrange(desc(Frequency))
 
 Freq.Ans_2016 = Answers %>% 
   filter(Year == 2016) %>%
-  group_by(X_OwnerUserId) %>%
+  group_by(AnswerProvider) %>%
   summarise(Frequency=n()) %>%
   arrange(desc(Frequency))
 
@@ -198,101 +198,195 @@ Freq.Comm_2016 = Comments %>%
   summarise(Frequency=n()) %>%
   arrange(desc(Frequency))
 
-# Creating QA (answer provider -> answer seeker) tables (all dataset and yearly)
+# Creating QA_All (answer provider -> answer seeker) tables (all dataset and yearly)
 temp_Answers = Answers %>% 
-  select(X_Id, X_OwnerUserId) %>%
-  rename(AnswerId = X_Id, AnswerProvider = X_OwnerUserId)
+  select(Question, Answer, AnswerProvider, Year)
 
-temp_Answered_Questions = Answered_Questions %>% 
-  select(X_AcceptedAnswerId, X_OwnerUserId, Year) %>%
-  rename(AnswerId = X_AcceptedAnswerId, AnswerSeeker = X_OwnerUserId)
+temp_Questions = Questions %>% 
+  select(Question, AnswerSeeker, AcceptedAnswer)
 
-QA = merge(temp_Answers, temp_Answered_Questions, by='AnswerId')
-QA$AnswerId = NULL
-QA_2012 = QA %>% filter(Year == 2012)
-QA_2013 = QA %>% filter(Year == 2013)
-QA_2014 = QA %>% filter(Year == 2014)
-QA_2015 = QA %>% filter(Year == 2015)
-QA_2016 = QA %>% filter(Year == 2016)
-rm(temp_Answers, temp_Answered_Questions)
+QA_All = merge(temp_Answers, temp_Questions, by='Question', all.x = T)
+QA_All = QA_All %>% filter(!is.na(AnswerSeeker))
+
+QA_All$Answer = NULL
+QA_All$Question = NULL
+QA_All_2012 = QA_All %>% filter(Year == 2012)
+QA_All_2013 = QA_All %>% filter(Year == 2013)
+QA_All_2014 = QA_All %>% filter(Year == 2014)
+QA_All_2015 = QA_All %>% filter(Year == 2015)
+QA_All_2016 = QA_All %>% filter(Year == 2016)
 
 # Removing columns AnswerId and Year
-QA$Year = NULL
-QA_2012$Year = NULL
-QA_2013$Year = NULL
-QA_2014$Year = NULL
-QA_2015$Year = NULL
-QA_2016$Year = NULL
+QA_All$Year = NULL
+QA_All_2012$Year = NULL
+QA_All_2013$Year = NULL
+QA_All_2014$Year = NULL
+QA_All_2015$Year = NULL
+QA_All_2016$Year = NULL
+rm(temp_Answers, temp_Questions)
+
+# Creating QA_Accepted (accepted answer provider only -> answer seeker) tables (all dataset and yearly)
+temp_Answers = Answers %>% 
+  select(Answer, AnswerProvider, Year)
+
+temp_Answered_Questions = Answered_Questions %>% 
+  select(AcceptedAnswer, AnswerSeeker) %>%
+  rename(Answer = AcceptedAnswer)
+
+QA_Accepted = merge(temp_Answers, temp_Answered_Questions, by = 'Answer')
+
+QA_Accepted$Answer = NULL
+QA_Accepted_2012 = QA_Accepted %>% filter(Year == 2012)
+QA_Accepted_2013 = QA_Accepted %>% filter(Year == 2013)
+QA_Accepted_2014 = QA_Accepted %>% filter(Year == 2014)
+QA_Accepted_2015 = QA_Accepted %>% filter(Year == 2015)
+QA_Accepted_2016 = QA_Accepted %>% filter(Year == 2016)
+
+# Removing columns AnswerId and Year
+QA_Accepted$Year = NULL
+QA_Accepted_2012$Year = NULL
+QA_Accepted_2013$Year = NULL
+QA_Accepted_2014$Year = NULL
+QA_Accepted_2015$Year = NULL
+QA_Accepted_2016$Year = NULL
+rm(temp_Answers, temp_Answered_Questions)
 
 ###** Calculate Network's Scoring **###
 library(igraph)
 
-# For QA
+# For QA_All
 # all dataset
-sports_g = graph.data.frame(QA, directed = T)
-sports_vertices = get.data.frame(sports_g, what='vertices')
-sports_vertices$betweenness = betweenness(sports_g)
-sports_vertices$closeness = closeness(sports_g)
-sports_vertices$in_degree = degree(sports_g, mode = 'in')
-sports_vertices$out_degree = degree(sports_g, mode = 'out')
-sports_vertices$eccentricity = eccentricity(sports_g)
-colnames(sports_vertices)[1] = 'user_id'
-sports_users = merge(sports_vertices, Users, by.x = 'user_id', by.y = 'X_Id', all.x = T)
+sports_QAAll_g = graph.data.frame(QA_All, directed = T)
+sports_QAAll_vertices = get.data.frame(sports_QAAll_g, what='vertices')
+sports_QAAll_vertices$betweenness = betweenness(sports_QAAll_g)
+sports_QAAll_vertices$closeness = closeness(sports_QAAll_g)
+sports_QAAll_vertices$in_degree = degree(sports_QAAll_g, mode = 'in')
+sports_QAAll_vertices$out_degree = degree(sports_QAAll_g, mode = 'out')
+sports_QAAll_vertices$eccentricity = eccentricity(sports_QAAll_g)
+colnames(sports_QAAll_vertices)[1] = 'user_id'
+sports_QAAll_users = merge(sports_QAAll_vertices, Users, by.x = 'user_id', by.y = 'X_Id', all.x = T)
 
 # 2012 dataset
-sports_2012_g = graph.data.frame(QA_2012, directed = T)
-sports_2012_vertices = get.data.frame(sports_2012_g, what='vertices')
-sports_2012_vertices$betweenness = betweenness(sports_2012_g)
-sports_2012_vertices$closeness = closeness(sports_2012_g)
-sports_2012_vertices$in_degree = degree(sports_2012_g, mode = 'in')
-sports_2012_vertices$out_degree = degree(sports_2012_g, mode = 'out')
-sports_2012_vertices$eccentricity = eccentricity(sports_2012_g)
-colnames(sports_2012_vertices)[1] = 'user_id'
-sports_2012_users = merge(sports_2012_vertices, Users, by.x = 'user_id', by.y = 'X_Id', all.x = T)
+sports_QAAll_2012_g = graph.data.frame(QA_All_2012, directed = T)
+sports_QAAll_2012_vertices = get.data.frame(sports_QAAll_2012_g, what='vertices')
+sports_QAAll_2012_vertices$betweenness = betweenness(sports_QAAll_2012_g)
+sports_QAAll_2012_vertices$closeness = closeness(sports_QAAll_2012_g)
+sports_QAAll_2012_vertices$in_degree = degree(sports_QAAll_2012_g, mode = 'in')
+sports_QAAll_2012_vertices$out_degree = degree(sports_QAAll_2012_g, mode = 'out')
+sports_QAAll_2012_vertices$eccentricity = eccentricity(sports_QAAll_2012_g)
+colnames(sports_QAAll_2012_vertices)[1] = 'user_id'
+sports_QAAll_2012_users = merge(sports_QAAll_2012_vertices, Users, by.x = 'user_id', by.y = 'X_Id', all.x = T)
 
 # 2013
-sports_2013_g = graph.data.frame(QA_2013, directed = T)
-sports_2013_vertices = get.data.frame(sports_2013_g, what='vertices')
-sports_2013_vertices$betweenness = betweenness(sports_2013_g)
-sports_2013_vertices$closeness = closeness(sports_2013_g)
-sports_2013_vertices$in_degree = degree(sports_2013_g, mode = 'in')
-sports_2013_vertices$out_degree = degree(sports_2013_g, mode = 'out')
-sports_2013_vertices$eccentricity = eccentricity(sports_2013_g)
-colnames(sports_2013_vertices)[1] = 'user_id'
-sports_2013_users = merge(sports_2013_vertices, Users, by.x = 'user_id', by.y = 'X_Id', all.x = T)
+sports_QAAll_2013_g = graph.data.frame(QA_All_2013, directed = T)
+sports_QAAll_2013_vertices = get.data.frame(sports_QAAll_2013_g, what='vertices')
+sports_QAAll_2013_vertices$betweenness = betweenness(sports_QAAll_2013_g)
+sports_QAAll_2013_vertices$closeness = closeness(sports_QAAll_2013_g)
+sports_QAAll_2013_vertices$in_degree = degree(sports_QAAll_2013_g, mode = 'in')
+sports_QAAll_2013_vertices$out_degree = degree(sports_QAAll_2013_g, mode = 'out')
+sports_QAAll_2013_vertices$eccentricity = eccentricity(sports_QAAll_2013_g)
+colnames(sports_QAAll_2013_vertices)[1] = 'user_id'
+sports_QAAll_2013_users = merge(sports_QAAll_2013_vertices, Users, by.x = 'user_id', by.y = 'X_Id', all.x = T)
 
 # 2014
-sports_2014_g = graph.data.frame(QA_2014, directed = T)
-sports_2014_vertices = get.data.frame(sports_2014_g, what='vertices')
-sports_2014_vertices$betweenness = betweenness(sports_2014_g)
-sports_2014_vertices$closeness = closeness(sports_2014_g)
-sports_2014_vertices$in_degree = degree(sports_2014_g, mode = 'in')
-sports_2014_vertices$out_degree = degree(sports_2014_g, mode = 'out')
-sports_2014_vertices$eccentricity = eccentricity(sports_2014_g)
-colnames(sports_2014_vertices)[1] = 'user_id'
-sports_2014_users = merge(sports_2014_vertices, Users, by.x = 'user_id', by.y = 'X_Id', all.x = T)
+sports_QAAll_2014_g = graph.data.frame(QA_All_2014, directed = T)
+sports_QAAll_2014_vertices = get.data.frame(sports_QAAll_2014_g, what='vertices')
+sports_QAAll_2014_vertices$betweenness = betweenness(sports_QAAll_2014_g)
+sports_QAAll_2014_vertices$closeness = closeness(sports_QAAll_2014_g)
+sports_QAAll_2014_vertices$in_degree = degree(sports_QAAll_2014_g, mode = 'in')
+sports_QAAll_2014_vertices$out_degree = degree(sports_QAAll_2014_g, mode = 'out')
+sports_QAAll_2014_vertices$eccentricity = eccentricity(sports_QAAll_2014_g)
+colnames(sports_QAAll_2014_vertices)[1] = 'user_id'
+sports_QAAll_2014_users = merge(sports_QAAll_2014_vertices, Users, by.x = 'user_id', by.y = 'X_Id', all.x = T)
 
 # 2015
-sports_2015_g = graph.data.frame(QA_2015, directed = T)
-sports_2015_vertices = get.data.frame(sports_2015_g, what='vertices')
-sports_2015_vertices$betweenness = betweenness(sports_2015_g)
-sports_2015_vertices$closeness = closeness(sports_2015_g)
-sports_2015_vertices$in_degree = degree(sports_2015_g, mode = 'in')
-sports_2015_vertices$out_degree = degree(sports_2015_g, mode = 'out')
-sports_2015_vertices$eccentricity = eccentricity(sports_2015_g)
-colnames(sports_2015_vertices)[1] = 'user_id'
-sports_2015_users = merge(sports_2015_vertices, Users, by.x = 'user_id', by.y = 'X_Id', all.x = T)
+sports_QAAll_2015_g = graph.data.frame(QA_All_2015, directed = T)
+sports_QAAll_2015_vertices = get.data.frame(sports_QAAll_2015_g, what='vertices')
+sports_QAAll_2015_vertices$betweenness = betweenness(sports_QAAll_2015_g)
+sports_QAAll_2015_vertices$closeness = closeness(sports_QAAll_2015_g)
+sports_QAAll_2015_vertices$in_degree = degree(sports_QAAll_2015_g, mode = 'in')
+sports_QAAll_2015_vertices$out_degree = degree(sports_QAAll_2015_g, mode = 'out')
+sports_QAAll_2015_vertices$eccentricity = eccentricity(sports_QAAll_2015_g)
+colnames(sports_QAAll_2015_vertices)[1] = 'user_id'
+sports_QAAll_2015_users = merge(sports_QAAll_2015_vertices, Users, by.x = 'user_id', by.y = 'X_Id', all.x = T)
 
 # 2016
-sports_2016_g = graph.data.frame(QA_2016, directed = T)
-sports_2016_vertices = get.data.frame(sports_2016_g, what='vertices')
-sports_2016_vertices$betweenness = betweenness(sports_2016_g)
-sports_2016_vertices$closeness = closeness(sports_2016_g)
-sports_2016_vertices$in_degree = degree(sports_2016_g, mode = 'in')
-sports_2016_vertices$out_degree = degree(sports_2016_g, mode = 'out')
-sports_2016_vertices$eccentricity = eccentricity(sports_2016_g)
-colnames(sports_2016_vertices)[1] = 'user_id'
-sports_2016_users = merge(sports_2016_vertices, Users, by.x = 'user_id', by.y = 'X_Id', all.x = T)
+sports_QAAll_2016_g = graph.data.frame(QA_All_2016, directed = T)
+sports_QAAll_2016_vertices = get.data.frame(sports_QAAll_2016_g, what='vertices')
+sports_QAAll_2016_vertices$betweenness = betweenness(sports_QAAll_2016_g)
+sports_QAAll_2016_vertices$closeness = closeness(sports_QAAll_2016_g)
+sports_QAAll_2016_vertices$in_degree = degree(sports_QAAll_2016_g, mode = 'in')
+sports_QAAll_2016_vertices$out_degree = degree(sports_QAAll_2016_g, mode = 'out')
+sports_QAAll_2016_vertices$eccentricity = eccentricity(sports_QAAll_2016_g)
+colnames(sports_QAAll_2016_vertices)[1] = 'user_id'
+sports_QAAll_2016_users = merge(sports_QAAll_2016_vertices, Users, by.x = 'user_id', by.y = 'X_Id', all.x = T)
+
+# For QA_Accepted
+# all dataset
+sports_QAAcc_g = graph.data.frame(QA_Accepted, directed = T)
+sports_QAAcc_vertices = get.data.frame(sports_QAAcc_g, what='vertices')
+sports_QAAcc_vertices$betweenness = betweenness(sports_QAAcc_g)
+sports_QAAcc_vertices$closeness = closeness(sports_QAAcc_g)
+sports_QAAcc_vertices$in_degree = degree(sports_QAAcc_g, mode = 'in')
+sports_QAAcc_vertices$out_degree = degree(sports_QAAcc_g, mode = 'out')
+sports_QAAcc_vertices$eccentricity = eccentricity(sports_QAAcc_g)
+colnames(sports_QAAcc_vertices)[1] = 'user_id'
+sports_QAAcc_users = merge(sports_QAAcc_vertices, Users, by.x = 'user_id', by.y = 'X_Id', all.x = T)
+
+# 2012 dataset
+sports_QAAcc_2012_g = graph.data.frame(QA_Accepted_2012, directed = T)
+sports_QAAcc_2012_vertices = get.data.frame(sports_QAAcc_2012_g, what='vertices')
+sports_QAAcc_2012_vertices$betweenness = betweenness(sports_QAAcc_2012_g)
+sports_QAAcc_2012_vertices$closeness = closeness(sports_QAAcc_2012_g)
+sports_QAAcc_2012_vertices$in_degree = degree(sports_QAAcc_2012_g, mode = 'in')
+sports_QAAcc_2012_vertices$out_degree = degree(sports_QAAcc_2012_g, mode = 'out')
+sports_QAAcc_2012_vertices$eccentricity = eccentricity(sports_QAAcc_2012_g)
+colnames(sports_QAAcc_2012_vertices)[1] = 'user_id'
+sports_QAAcc_2012_users = merge(sports_QAAcc_2012_vertices, Users, by.x = 'user_id', by.y = 'X_Id', all.x = T)
+
+# 2013
+sports_QAAcc_2013_g = graph.data.frame(QA_Accepted_2013, directed = T)
+sports_QAAcc_2013_vertices = get.data.frame(sports_QAAcc_2013_g, what='vertices')
+sports_QAAcc_2013_vertices$betweenness = betweenness(sports_QAAcc_2013_g)
+sports_QAAcc_2013_vertices$closeness = closeness(sports_QAAcc_2013_g)
+sports_QAAcc_2013_vertices$in_degree = degree(sports_QAAcc_2013_g, mode = 'in')
+sports_QAAcc_2013_vertices$out_degree = degree(sports_QAAcc_2013_g, mode = 'out')
+sports_QAAcc_2013_vertices$eccentricity = eccentricity(sports_QAAcc_2013_g)
+colnames(sports_QAAcc_2013_vertices)[1] = 'user_id'
+sports_QAAcc_2013_users = merge(sports_QAAcc_2013_vertices, Users, by.x = 'user_id', by.y = 'X_Id', all.x = T)
+
+# 2014
+sports_QAAcc_2014_g = graph.data.frame(QA_Accepted_2014, directed = T)
+sports_QAAcc_2014_vertices = get.data.frame(sports_QAAcc_2014_g, what='vertices')
+sports_QAAcc_2014_vertices$betweenness = betweenness(sports_QAAcc_2014_g)
+sports_QAAcc_2014_vertices$closeness = closeness(sports_QAAcc_2014_g)
+sports_QAAcc_2014_vertices$in_degree = degree(sports_QAAcc_2014_g, mode = 'in')
+sports_QAAcc_2014_vertices$out_degree = degree(sports_QAAcc_2014_g, mode = 'out')
+sports_QAAcc_2014_vertices$eccentricity = eccentricity(sports_QAAcc_2014_g)
+colnames(sports_QAAcc_2014_vertices)[1] = 'user_id'
+sports_QAAcc_2014_users = merge(sports_QAAcc_2014_vertices, Users, by.x = 'user_id', by.y = 'X_Id', all.x = T)
+
+# 2015
+sports_QAAcc_2015_g = graph.data.frame(QA_Accepted_2015, directed = T)
+sports_QAAcc_2015_vertices = get.data.frame(sports_QAAcc_2015_g, what='vertices')
+sports_QAAcc_2015_vertices$betweenness = betweenness(sports_QAAcc_2015_g)
+sports_QAAcc_2015_vertices$closeness = closeness(sports_QAAcc_2015_g)
+sports_QAAcc_2015_vertices$in_degree = degree(sports_QAAcc_2015_g, mode = 'in')
+sports_QAAcc_2015_vertices$out_degree = degree(sports_QAAcc_2015_g, mode = 'out')
+sports_QAAcc_2015_vertices$eccentricity = eccentricity(sports_QAAcc_2015_g)
+colnames(sports_QAAcc_2015_vertices)[1] = 'user_id'
+sports_QAAcc_2015_users = merge(sports_QAAcc_2015_vertices, Users, by.x = 'user_id', by.y = 'X_Id', all.x = T)
+
+# 2016
+sports_QAAcc_2016_g = graph.data.frame(QA_Accepted_2016, directed = T)
+sports_QAAcc_2016_vertices = get.data.frame(sports_QAAcc_2016_g, what='vertices')
+sports_QAAcc_2016_vertices$betweenness = betweenness(sports_QAAcc_2016_g)
+sports_QAAcc_2016_vertices$closeness = closeness(sports_QAAcc_2016_g)
+sports_QAAcc_2016_vertices$in_degree = degree(sports_QAAcc_2016_g, mode = 'in')
+sports_QAAcc_2016_vertices$out_degree = degree(sports_QAAcc_2016_g, mode = 'out')
+sports_QAAcc_2016_vertices$eccentricity = eccentricity(sports_QAAcc_2016_g)
+colnames(sports_QAAcc_2016_vertices)[1] = 'user_id'
+sports_QAAcc_2016_users = merge(sports_QAAcc_2016_vertices, Users, by.x = 'user_id', by.y = 'X_Id', all.x = T)
 
 # for Comments_Questions
 # all dataset
