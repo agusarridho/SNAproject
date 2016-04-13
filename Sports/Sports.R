@@ -590,12 +590,12 @@ el$from = el$idn
 el$idn = NULL
 el = data.frame(from=as.numeric(el$from)-1, 
                 to=as.numeric(el$to)-1 )
-
+nl$Info = paste0(nl$X_DisplayName,', Rep: ', nl$X_Reputation)
 forceNetwork(Links = el, Nodes = nl, Source="from", Target="to",
-             NodeID = "user_id", Group = "in_degree",linkWidth = 1,
-             linkColour = "#afafaf", fontSize=12, zoom=T, legend=T,
-             Nodesize=6, opacity = 1, charge=-600, 
-             width = 800, height = 600)
+             NodeID = "Info", Group = "out_degree",linkWidth = 1,
+             linkColour = "#afafaf", fontSize=23, zoom=T, legend=T,
+             Nodesize=6, opacity = 0.9, charge=-600, 
+             width = 1000, height = 1000)
 rm(temp, nl, el)
 
 # 2012
@@ -613,12 +613,12 @@ el$from = el$idn
 el$idn = NULL
 el = data.frame(from=as.numeric(el$from)-1, 
                 to=as.numeric(el$to)-1 )
-
+nl$Info = paste0(nl$X_DisplayName,', Rep: ', nl$X_Reputation)
 forceNetwork(Links = el, Nodes = nl, Source="from", Target="to",
-             NodeID = "user_id", Group = "in_degree",linkWidth = 1,
-             linkColour = "#afafaf", fontSize=12, zoom=T, legend=T,
-             Nodesize=6, opacity = 1, charge=-600, 
-             width = 800, height = 600)
+             NodeID = "Info", Group = "out_degree",linkWidth = 1,
+             linkColour = "#afafaf", fontSize=23, zoom=T, legend=T,
+             Nodesize=6, opacity = 0.9, charge=-600, 
+             width = 1000, height = 1000)
 rm(temp, nl, el)
 
 # 2013
@@ -636,12 +636,12 @@ el$from = el$idn
 el$idn = NULL
 el = data.frame(from=as.numeric(el$from)-1, 
                 to=as.numeric(el$to)-1 )
-
+nl$Info = paste0(nl$X_DisplayName,', Rep: ', nl$X_Reputation)
 forceNetwork(Links = el, Nodes = nl, Source="from", Target="to",
-             NodeID = "user_id", Group = "in_degree",linkWidth = 1,
-             linkColour = "#afafaf", fontSize=12, zoom=T, legend=T,
-             Nodesize=6, opacity = 1, charge=-600, 
-             width = 800, height = 600)
+             NodeID = "Info", Group = "out_degree",linkWidth = 1,
+             linkColour = "#afafaf", fontSize=23, zoom=T, legend=T,
+             Nodesize=6, opacity = 0.9, charge=-600, 
+             width = 1000, height = 1000)
 rm(temp, nl, el)
 
 # 2014
@@ -659,12 +659,12 @@ el$from = el$idn
 el$idn = NULL
 el = data.frame(from=as.numeric(el$from)-1, 
                 to=as.numeric(el$to)-1 )
-
+nl$Info = paste0(nl$X_DisplayName,', Rep: ', nl$X_Reputation)
 forceNetwork(Links = el, Nodes = nl, Source="from", Target="to",
-             NodeID = "user_id", Group = "in_degree",linkWidth = 1,
-             linkColour = "#afafaf", fontSize=12, zoom=T, legend=T,
-             Nodesize=6, opacity = 1, charge=-600, 
-             width = 800, height = 600)
+             NodeID = "Info", Group = "out_degree",linkWidth = 1,
+             linkColour = "#afafaf", fontSize=23, zoom=T, legend=T,
+             Nodesize=6, opacity = 0.9, charge=-600, 
+             width = 1000, height = 1000)
 rm(temp, nl, el)
 
 # 2015
@@ -682,12 +682,12 @@ el$from = el$idn
 el$idn = NULL
 el = data.frame(from=as.numeric(el$from)-1, 
                 to=as.numeric(el$to)-1 )
-
+nl$Info = paste0(nl$X_DisplayName,', Rep: ', nl$X_Reputation)
 forceNetwork(Links = el, Nodes = nl, Source="from", Target="to",
-             NodeID = "user_id", Group = "in_degree",linkWidth = 1,
-             linkColour = "#afafaf", fontSize=12, zoom=T, legend=T,
-             Nodesize=6, opacity = 1, charge=-600, 
-             width = 800, height = 600)
+             NodeID = "Info", Group = "out_degree",linkWidth = 1,
+             linkColour = "#afafaf", fontSize=23, zoom=T, legend=T,
+             Nodesize=6, opacity = 0.9, charge=-600, 
+             width = 1000, height = 1000)
 rm(temp, nl, el)
 
 # 2016
@@ -705,10 +705,10 @@ el$from = el$idn
 el$idn = NULL
 el = data.frame(from=as.numeric(el$from)-1, 
                 to=as.numeric(el$to)-1 )
-
+nl$Info = paste0(nl$X_DisplayName,', Rep: ', nl$X_Reputation)
 forceNetwork(Links = el, Nodes = nl, Source="from", Target="to",
-             NodeID = "user_id", Group = "in_degree",linkWidth = 1,
-             linkColour = "#afafaf", fontSize=12, zoom=T, legend=T,
-             Nodesize=6, opacity = 1, charge=-600, 
-             width = 800, height = 600)
+             NodeID = "Info", Group = "out_degree",linkWidth = 1,
+             linkColour = "#afafaf", fontSize=23, zoom=T, legend=T,
+             Nodesize=6, opacity = 0.9, charge=-600, 
+             width = 1000, height = 1000)
 rm(temp, nl, el)
