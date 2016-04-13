@@ -258,6 +258,7 @@ library(igraph)
 # all dataset
 sports_QAAll_g = graph.data.frame(QA_All, directed = T)
 sports_QAAll_vertices = get.data.frame(sports_QAAll_g, what='vertices')
+sports_QAAll_edges = get.data.frame(sports_QAAll_g, what='edges')
 sports_QAAll_vertices$betweenness = betweenness(sports_QAAll_g)
 sports_QAAll_vertices$closeness = closeness(sports_QAAll_g)
 sports_QAAll_vertices$in_degree = degree(sports_QAAll_g, mode = 'in')
@@ -269,6 +270,7 @@ sports_QAAll_users = merge(sports_QAAll_vertices, Users, by.x = 'user_id', by.y 
 # 2012 dataset
 sports_QAAll_2012_g = graph.data.frame(QA_All_2012, directed = T)
 sports_QAAll_2012_vertices = get.data.frame(sports_QAAll_2012_g, what='vertices')
+sports_QAAll_2012_edges = get.data.frame(sports_QAAll_2012_g, what='edges')
 sports_QAAll_2012_vertices$betweenness = betweenness(sports_QAAll_2012_g)
 sports_QAAll_2012_vertices$closeness = closeness(sports_QAAll_2012_g)
 sports_QAAll_2012_vertices$in_degree = degree(sports_QAAll_2012_g, mode = 'in')
@@ -280,6 +282,7 @@ sports_QAAll_2012_users = merge(sports_QAAll_2012_vertices, Users, by.x = 'user_
 # 2013
 sports_QAAll_2013_g = graph.data.frame(QA_All_2013, directed = T)
 sports_QAAll_2013_vertices = get.data.frame(sports_QAAll_2013_g, what='vertices')
+sports_QAAll_2013_edges = get.data.frame(sports_QAAll_2013_g, what='edges')
 sports_QAAll_2013_vertices$betweenness = betweenness(sports_QAAll_2013_g)
 sports_QAAll_2013_vertices$closeness = closeness(sports_QAAll_2013_g)
 sports_QAAll_2013_vertices$in_degree = degree(sports_QAAll_2013_g, mode = 'in')
@@ -291,6 +294,7 @@ sports_QAAll_2013_users = merge(sports_QAAll_2013_vertices, Users, by.x = 'user_
 # 2014
 sports_QAAll_2014_g = graph.data.frame(QA_All_2014, directed = T)
 sports_QAAll_2014_vertices = get.data.frame(sports_QAAll_2014_g, what='vertices')
+sports_QAAll_2014_edges = get.data.frame(sports_QAAll_2014_g, what='edges')
 sports_QAAll_2014_vertices$betweenness = betweenness(sports_QAAll_2014_g)
 sports_QAAll_2014_vertices$closeness = closeness(sports_QAAll_2014_g)
 sports_QAAll_2014_vertices$in_degree = degree(sports_QAAll_2014_g, mode = 'in')
@@ -302,6 +306,7 @@ sports_QAAll_2014_users = merge(sports_QAAll_2014_vertices, Users, by.x = 'user_
 # 2015
 sports_QAAll_2015_g = graph.data.frame(QA_All_2015, directed = T)
 sports_QAAll_2015_vertices = get.data.frame(sports_QAAll_2015_g, what='vertices')
+sports_QAAll_2015_edges = get.data.frame(sports_QAAll_2015_g, what='edges')
 sports_QAAll_2015_vertices$betweenness = betweenness(sports_QAAll_2015_g)
 sports_QAAll_2015_vertices$closeness = closeness(sports_QAAll_2015_g)
 sports_QAAll_2015_vertices$in_degree = degree(sports_QAAll_2015_g, mode = 'in')
@@ -313,6 +318,7 @@ sports_QAAll_2015_users = merge(sports_QAAll_2015_vertices, Users, by.x = 'user_
 # 2016
 sports_QAAll_2016_g = graph.data.frame(QA_All_2016, directed = T)
 sports_QAAll_2016_vertices = get.data.frame(sports_QAAll_2016_g, what='vertices')
+sports_QAAll_2016_edges = get.data.frame(sports_QAAll_2016_g, what='edges')
 sports_QAAll_2016_vertices$betweenness = betweenness(sports_QAAll_2016_g)
 sports_QAAll_2016_vertices$closeness = closeness(sports_QAAll_2016_g)
 sports_QAAll_2016_vertices$in_degree = degree(sports_QAAll_2016_g, mode = 'in')
@@ -325,6 +331,7 @@ sports_QAAll_2016_users = merge(sports_QAAll_2016_vertices, Users, by.x = 'user_
 # all dataset
 sports_QAAcc_g = graph.data.frame(QA_Accepted, directed = T)
 sports_QAAcc_vertices = get.data.frame(sports_QAAcc_g, what='vertices')
+sports_QAAcc_edges = get.data.frame(sports_QAAcc_g, what='edges')
 sports_QAAcc_vertices$betweenness = betweenness(sports_QAAcc_g)
 sports_QAAcc_vertices$closeness = closeness(sports_QAAcc_g)
 sports_QAAcc_vertices$in_degree = degree(sports_QAAcc_g, mode = 'in')
@@ -336,6 +343,7 @@ sports_QAAcc_users = merge(sports_QAAcc_vertices, Users, by.x = 'user_id', by.y 
 # 2012 dataset
 sports_QAAcc_2012_g = graph.data.frame(QA_Accepted_2012, directed = T)
 sports_QAAcc_2012_vertices = get.data.frame(sports_QAAcc_2012_g, what='vertices')
+sports_QAAcc_2012_edges = get.data.frame(sports_QAAcc_2012_g, what='edges')
 sports_QAAcc_2012_vertices$betweenness = betweenness(sports_QAAcc_2012_g)
 sports_QAAcc_2012_vertices$closeness = closeness(sports_QAAcc_2012_g)
 sports_QAAcc_2012_vertices$in_degree = degree(sports_QAAcc_2012_g, mode = 'in')
@@ -347,6 +355,7 @@ sports_QAAcc_2012_users = merge(sports_QAAcc_2012_vertices, Users, by.x = 'user_
 # 2013
 sports_QAAcc_2013_g = graph.data.frame(QA_Accepted_2013, directed = T)
 sports_QAAcc_2013_vertices = get.data.frame(sports_QAAcc_2013_g, what='vertices')
+sports_QAAcc_2013_edges = get.data.frame(sports_QAAcc_2013_g, what='edges')
 sports_QAAcc_2013_vertices$betweenness = betweenness(sports_QAAcc_2013_g)
 sports_QAAcc_2013_vertices$closeness = closeness(sports_QAAcc_2013_g)
 sports_QAAcc_2013_vertices$in_degree = degree(sports_QAAcc_2013_g, mode = 'in')
@@ -358,6 +367,7 @@ sports_QAAcc_2013_users = merge(sports_QAAcc_2013_vertices, Users, by.x = 'user_
 # 2014
 sports_QAAcc_2014_g = graph.data.frame(QA_Accepted_2014, directed = T)
 sports_QAAcc_2014_vertices = get.data.frame(sports_QAAcc_2014_g, what='vertices')
+sports_QAAcc_2014_edges = get.data.frame(sports_QAAcc_2014_g, what='edges')
 sports_QAAcc_2014_vertices$betweenness = betweenness(sports_QAAcc_2014_g)
 sports_QAAcc_2014_vertices$closeness = closeness(sports_QAAcc_2014_g)
 sports_QAAcc_2014_vertices$in_degree = degree(sports_QAAcc_2014_g, mode = 'in')
@@ -369,6 +379,7 @@ sports_QAAcc_2014_users = merge(sports_QAAcc_2014_vertices, Users, by.x = 'user_
 # 2015
 sports_QAAcc_2015_g = graph.data.frame(QA_Accepted_2015, directed = T)
 sports_QAAcc_2015_vertices = get.data.frame(sports_QAAcc_2015_g, what='vertices')
+sports_QAAcc_2015_edges = get.data.frame(sports_QAAcc_2015_g, what='edges')
 sports_QAAcc_2015_vertices$betweenness = betweenness(sports_QAAcc_2015_g)
 sports_QAAcc_2015_vertices$closeness = closeness(sports_QAAcc_2015_g)
 sports_QAAcc_2015_vertices$in_degree = degree(sports_QAAcc_2015_g, mode = 'in')
@@ -380,6 +391,7 @@ sports_QAAcc_2015_users = merge(sports_QAAcc_2015_vertices, Users, by.x = 'user_
 # 2016
 sports_QAAcc_2016_g = graph.data.frame(QA_Accepted_2016, directed = T)
 sports_QAAcc_2016_vertices = get.data.frame(sports_QAAcc_2016_g, what='vertices')
+sports_QAAcc_2016_edges = get.data.frame(sports_QAAcc_2016_g, what='edges')
 sports_QAAcc_2016_vertices$betweenness = betweenness(sports_QAAcc_2016_g)
 sports_QAAcc_2016_vertices$closeness = closeness(sports_QAAcc_2016_g)
 sports_QAAcc_2016_vertices$in_degree = degree(sports_QAAcc_2016_g, mode = 'in')
@@ -560,3 +572,143 @@ write.csv(QA_2016, file = 'QA_2016.csv', row.names = F)
 write.csv(Comments_Answers_2016, file = 'Comments_Answers_2016.csv', row.names = F)
 write.csv(Comments_Questions_2016, file = 'Comments_Questions_2016.csv', row.names = F)
 
+###*** Interactive Networks QAAcc ***###
+library(networkD3) 
+
+# all dataset
+nl = cbind(idn=factor(sports_QAAcc_users$user_id, 
+                      levels=sports_QAAcc_users$user_id), 
+           sports_QAAcc_users)
+
+el = sports_QAAcc_edges
+temp = nl %>% select(user_id, idn)
+el = merge(el, temp, by.x = 'to', by.y = 'user_id', all.x = T)
+el$to = el$idn
+el$idn = NULL
+el = merge(el, temp, by.x = 'from', by.y = 'user_id', all.x = T)
+el$from = el$idn
+el$idn = NULL
+el = data.frame(from=as.numeric(el$from)-1, 
+                to=as.numeric(el$to)-1 )
+
+forceNetwork(Links = el, Nodes = nl, Source="from", Target="to",
+             NodeID = "user_id", Group = "in_degree",linkWidth = 1,
+             linkColour = "#afafaf", fontSize=12, zoom=T, legend=T,
+             Nodesize=6, opacity = 1, charge=-600, 
+             width = 800, height = 600)
+rm(temp, nl, el)
+
+# 2012
+nl = cbind(idn=factor(sports_QAAcc_2012_users$user_id, 
+                      levels=sports_QAAcc_2012_users$user_id), 
+           sports_QAAcc_2012_users)
+
+el = sports_QAAcc_2012_edges
+temp = nl %>% select(user_id, idn)
+el = merge(el, temp, by.x = 'to', by.y = 'user_id', all.x = T)
+el$to = el$idn
+el$idn = NULL
+el = merge(el, temp, by.x = 'from', by.y = 'user_id', all.x = T)
+el$from = el$idn
+el$idn = NULL
+el = data.frame(from=as.numeric(el$from)-1, 
+                to=as.numeric(el$to)-1 )
+
+forceNetwork(Links = el, Nodes = nl, Source="from", Target="to",
+             NodeID = "user_id", Group = "in_degree",linkWidth = 1,
+             linkColour = "#afafaf", fontSize=12, zoom=T, legend=T,
+             Nodesize=6, opacity = 1, charge=-600, 
+             width = 800, height = 600)
+rm(temp, nl, el)
+
+# 2013
+nl = cbind(idn=factor(sports_QAAcc_2013_users$user_id, 
+                      levels=sports_QAAcc_2013_users$user_id), 
+           sports_QAAcc_2013_users)
+
+el = sports_QAAcc_2013_edges
+temp = nl %>% select(user_id, idn)
+el = merge(el, temp, by.x = 'to', by.y = 'user_id', all.x = T)
+el$to = el$idn
+el$idn = NULL
+el = merge(el, temp, by.x = 'from', by.y = 'user_id', all.x = T)
+el$from = el$idn
+el$idn = NULL
+el = data.frame(from=as.numeric(el$from)-1, 
+                to=as.numeric(el$to)-1 )
+
+forceNetwork(Links = el, Nodes = nl, Source="from", Target="to",
+             NodeID = "user_id", Group = "in_degree",linkWidth = 1,
+             linkColour = "#afafaf", fontSize=12, zoom=T, legend=T,
+             Nodesize=6, opacity = 1, charge=-600, 
+             width = 800, height = 600)
+rm(temp, nl, el)
+
+# 2014
+nl = cbind(idn=factor(sports_QAAcc_2014_users$user_id, 
+                      levels=sports_QAAcc_2014_users$user_id), 
+           sports_QAAcc_2014_users)
+
+el = sports_QAAcc_2014_edges
+temp = nl %>% select(user_id, idn)
+el = merge(el, temp, by.x = 'to', by.y = 'user_id', all.x = T)
+el$to = el$idn
+el$idn = NULL
+el = merge(el, temp, by.x = 'from', by.y = 'user_id', all.x = T)
+el$from = el$idn
+el$idn = NULL
+el = data.frame(from=as.numeric(el$from)-1, 
+                to=as.numeric(el$to)-1 )
+
+forceNetwork(Links = el, Nodes = nl, Source="from", Target="to",
+             NodeID = "user_id", Group = "in_degree",linkWidth = 1,
+             linkColour = "#afafaf", fontSize=12, zoom=T, legend=T,
+             Nodesize=6, opacity = 1, charge=-600, 
+             width = 800, height = 600)
+rm(temp, nl, el)
+
+# 2015
+nl = cbind(idn=factor(sports_QAAcc_2015_users$user_id, 
+                      levels=sports_QAAcc_2015_users$user_id), 
+           sports_QAAcc_2015_users)
+
+el = sports_QAAcc_2015_edges
+temp = nl %>% select(user_id, idn)
+el = merge(el, temp, by.x = 'to', by.y = 'user_id', all.x = T)
+el$to = el$idn
+el$idn = NULL
+el = merge(el, temp, by.x = 'from', by.y = 'user_id', all.x = T)
+el$from = el$idn
+el$idn = NULL
+el = data.frame(from=as.numeric(el$from)-1, 
+                to=as.numeric(el$to)-1 )
+
+forceNetwork(Links = el, Nodes = nl, Source="from", Target="to",
+             NodeID = "user_id", Group = "in_degree",linkWidth = 1,
+             linkColour = "#afafaf", fontSize=12, zoom=T, legend=T,
+             Nodesize=6, opacity = 1, charge=-600, 
+             width = 800, height = 600)
+rm(temp, nl, el)
+
+# 2016
+nl = cbind(idn=factor(sports_QAAcc_2016_users$user_id, 
+                      levels=sports_QAAcc_2016_users$user_id), 
+           sports_QAAcc_2016_users)
+
+el = sports_QAAcc_2016_edges
+temp = nl %>% select(user_id, idn)
+el = merge(el, temp, by.x = 'to', by.y = 'user_id', all.x = T)
+el$to = el$idn
+el$idn = NULL
+el = merge(el, temp, by.x = 'from', by.y = 'user_id', all.x = T)
+el$from = el$idn
+el$idn = NULL
+el = data.frame(from=as.numeric(el$from)-1, 
+                to=as.numeric(el$to)-1 )
+
+forceNetwork(Links = el, Nodes = nl, Source="from", Target="to",
+             NodeID = "user_id", Group = "in_degree",linkWidth = 1,
+             linkColour = "#afafaf", fontSize=12, zoom=T, legend=T,
+             Nodesize=6, opacity = 1, charge=-600, 
+             width = 800, height = 600)
+rm(temp, nl, el)
