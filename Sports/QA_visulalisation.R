@@ -5,6 +5,30 @@ library(dplyr)
 library(ggplot2)
 
 ##########################################
+# plot QA All network (bigger dot means higher OUT degree)
+QA_All_graph = graph.data.frame(QA_All, sports_QAAll_users, directed = T)
+
+
+V(QA_All_graph)$shape<-"circle"
+#change
+V(QA_All_graph)$size = (degree(QA_All_graph,mode = 'out')/10)+2
+V(QA_All_graph)$label = V(QA_All_graph)$name
+V(QA_All_graph)$label.cex = 0.5
+l <- layout.drl(QA_All_graph)
+
+E(QA_All_graph)$arrow.size <- 0.04
+plot(QA_All_graph,
+     layout = l*100,
+     vertex.shape='circle',
+     vertex.color = 'dodgerblue',
+     edge.color = ifelse(!is.na(E(QA_All_graph)$AcceptedAnswer), 'red', 'green'),
+     vertex.label = ifelse(degree(QA_All_graph,mode = 'out') > 30, V(QA_All_graph)$label, NA),
+     vertex.label.color='black',
+     vertex.label.font = 2,
+     main='QA All network - OUT degree highlighted')
+     
+
+##########################################
 # plot QA accepted network (bigger dot means higher OUT degree)
 QA_Accepted_graph = graph.data.frame(QA_Accepted, sports_QAAcc_users, directed = T)
 
@@ -19,9 +43,9 @@ V(QA_Accepted_graph)$label.cex = 0.5
 l <- layout.fruchterman.reingold(QA_Accepted_graph)
 
 E(QA_Accepted_graph)$arrow.size <- 0.02
-plot(QA_Accepted_graph, 
-     layout=l *10, 
-     vertex.shape='circle', 
+plot(QA_Accepted_graph,
+     layout=l *10,
+     vertex.shape='circle',
      vertex.label = ifelse(degree(QA_Accepted_graph,mode = 'out') > 30, V(QA_Accepted_graph)$label, NA),
      vertex.label.color='black',
      vertex.label.font = 2,
@@ -29,10 +53,10 @@ plot(QA_Accepted_graph,
 
 # plot QA accepted network (bigger dot means higher IN degree)
 E(QA_Accepted_graph)$arrow.size <- 0.02
-plot(QA_Accepted_graph, 
+plot(QA_Accepted_graph,
      layout=layout.fruchterman.reingold,
      vertex.size = (degree(QA_Accepted_graph,mode = 'in')/10)+1,
-     vertex.shape='circle', 
+     vertex.shape='circle',
      vertex.label = ifelse(degree(QA_Accepted_graph,mode = 'in') > 30, V(QA_Accepted_graph)$label, NA),
      vertex.label.color='black',
      vertex.label.font = 2,
@@ -63,11 +87,96 @@ V(QA_Accepted_graph)$community <- optimal.community(QA_Accepted_graph)$membershi
 QA_Accepted_graph
 
 ##########################################
-# ploting of histograms and basic things 
+# ploting of histograms and basic things
 # plot density of out and in degree
 par(mfrow=c(1,2))
 plot(density(sports_QAAcc_users$out_degree), main='Out-degree distribution')
 plot(density(sports_QAAcc_users$in_degree), main='In-degree distribution')
+par(mfrow=c(1,1))
+
+# Bar chart of top 20 answer seekers
+topTwenty = Freq.Quest[1:20,]
+temp = Users %>% select(X_Id, X_DisplayName)
+topTwenty = merge(topTwenty, temp, by.x = 'AnswerSeeker', by.y = 'X_Id')
+bar = barplot(topTwenty$Frequency, main="Top 20 Answer seekers")
+text(bar,par("usr")[3],labels=topTwenty$X_DisplayName,srt=45,offset=1,adj=1,xpd=TRUE)
+
+# Bar charts of Top 10 Answer seekers
+par(mfrow=c(2,3))
+#2012
+topTwenty12 = Freq.Quest_2012[1:10,]
+temp = Users %>% select(X_Id, X_DisplayName)
+topTwenty12 = merge(topTwenty12, temp, by.x = 'AnswerSeeker', by.y = 'X_Id')
+bar = barplot(topTwenty12$Frequency, main="Top 10 Answer seekers - 2012")
+text(bar,par("usr")[3],labels=topTwenty12$X_DisplayName,srt=45,offset=1,adj=1,xpd=TRUE)
+#2013
+topTwenty13 = Freq.Quest_2013[1:10,]
+temp = Users %>% select(X_Id, X_DisplayName)
+topTwenty13 = merge(topTwenty13, temp, by.x = 'AnswerSeeker', by.y = 'X_Id')
+bar = barplot(topTwenty13$Frequency, main="Top 10 Answer seekers - 2013")
+text(bar,par("usr")[3],labels=topTwenty13$X_DisplayName,srt=45,offset=1,adj=1,xpd=TRUE)
+#2014
+topTwenty14 = Freq.Quest_2014[1:10,]
+temp = Users %>% select(X_Id, X_DisplayName)
+topTwenty14 = merge(topTwenty14, temp, by.x = 'AnswerSeeker', by.y = 'X_Id')
+bar = barplot(topTwenty14$Frequency, main="Top 10 Answer seekers - 2014")
+text(bar,par("usr")[3],labels=topTwenty14$X_DisplayName,srt=45,offset=1,adj=1,xpd=TRUE)
+#2015
+topTwenty15 = Freq.Quest_2015[1:10,]
+temp = Users %>% select(X_Id, X_DisplayName)
+topTwenty15 = merge(topTwenty15, temp, by.x = 'AnswerSeeker', by.y = 'X_Id')
+bar = barplot(topTwenty15$Frequency, main="Top 10 Answer seekers - 2015")
+text(bar,par("usr")[3],labels=topTwenty15$X_DisplayName,srt=45,offset=1,adj=1,xpd=TRUE)
+#2016
+topTwenty16 = Freq.Quest_2016[1:10,]
+temp = Users %>% select(X_Id, X_DisplayName)
+topTwenty16 = merge(topTwenty16, temp, by.x = 'AnswerSeeker', by.y = 'X_Id')
+bar = barplot(topTwenty16$Frequency, main="Top 10 Answer seekers - 2016")
+text(bar,par("usr")[3],labels=topTwenty16$X_DisplayName,srt=45,offset=1,adj=1,xpd=TRUE)
+
+par(mfrow=c(1,1))
+
+
+# Bar chart of top 20 acceted answer providers
+topTwenty = Freq.Acc_Ans[1:20,]
+temp = Users %>% select(X_Id, X_DisplayName)
+topTwenty = merge(topTwenty, temp, by.x = 'AnswerProvider', by.y = 'X_Id')
+bar = barplot(topTwenty$Frequency, main="Top 20 Accepted Answer providers", xlab="Provider")
+text(bar,par("usr")[3],labels=topTwenty$X_DisplayName,srt=45,offset=1,adj=1,xpd=TRUE)
+
+# Bar charts of top 10 accepted answer providers
+par(mfrow=c(2,3))
+#2012
+topTwenty12 = Freq.Acc_Ans_2012[1:10,]
+temp = Users %>% select(X_Id, X_DisplayName)
+topTwenty12 = merge(topTwenty12, temp, by.x = 'AnswerProvider', by.y = 'X_Id')
+bar = barplot(topTwenty12$Frequency, main="Top 10 Accepted Answer providers - 2012", xlab="Provider")
+text(bar,par("usr")[3],labels=topTwenty12$X_DisplayName,srt=45,offset=1,adj=1,xpd=TRUE)
+#2013
+topTwenty13 = Freq.Acc_Ans_2013[1:10,]
+temp = Users %>% select(X_Id, X_DisplayName)
+topTwenty13 = merge(topTwenty13, temp, by.x = 'AnswerProvider', by.y = 'X_Id')
+bar = barplot(topTwenty13$Frequency, main="Top 10 Accepted Answer providers - 2013", xlab="Provider")
+text(bar,par("usr")[3],labels=topTwenty13$X_DisplayName,srt=45,offset=1,adj=1,xpd=TRUE)
+#2014
+topTwenty14 = Freq.Acc_Ans_2014[1:10,]
+temp = Users %>% select(X_Id, X_DisplayName)
+topTwenty14 = merge(topTwenty14, temp, by.x = 'AnswerProvider', by.y = 'X_Id')
+bar = barplot(topTwenty14$Frequency, main="Top 10 Accepted Answer providers - 2014", xlab="Provider")
+text(bar,par("usr")[3],labels=topTwenty14$X_DisplayName,srt=45,offset=1,adj=1,xpd=TRUE)
+#2015
+topTwenty15 = Freq.Acc_Ans_2015[1:10,]
+temp = Users %>% select(X_Id, X_DisplayName)
+topTwenty15 = merge(topTwenty15, temp, by.x = 'AnswerProvider', by.y = 'X_Id')
+bar = barplot(topTwenty15$Frequency, main="Top 10 Accepted Answer providers - 2015", xlab="Provider")
+text(bar,par("usr")[3],labels=topTwenty15$X_DisplayName,srt=45,offset=1,adj=1,xpd=TRUE)
+#2016
+topTwenty16 = Freq.Acc_Ans_2016[1:10,]
+temp = Users %>% select(X_Id, X_DisplayName)
+topTwenty16 = merge(topTwenty16, temp, by.x = 'AnswerProvider', by.y = 'X_Id')
+bar = barplot(topTwenty16$Frequency, main="Top 10 Accepted Answer providers - 2016", xlab="Provider")
+text(bar,par("usr")[3],labels=topTwenty16$X_DisplayName,srt=45,offset=1,adj=1,xpd=TRUE)
+
 par(mfrow=c(1,1))
 
 
@@ -78,7 +187,7 @@ topTwenty = merge(topTwenty, temp, by.x = 'AnswerProvider', by.y = 'X_Id')
 bar = barplot(topTwenty$Frequency, main="Top 20 Answer providers", xlab="Provider")
 text(bar,par("usr")[3],labels=topTwenty$X_DisplayName,srt=45,offset=1,adj=1,xpd=TRUE)
 
-# Bar charts of top 20 answer providers 
+# Bar charts of top 10 answer providers
 par(mfrow=c(2,3))
 #2012
 topTwenty12 = Freq.Ans_2012[1:10,]
@@ -119,10 +228,9 @@ QA_Accepted_graph_matrix = get.adjacency(QA_Accepted_2016_graph, sparse=F)
 colnames(QA_Accepted_graph_matrix) = V(QA_Accepted_2016_graph)$X_DisplayName
 rownames(QA_Accepted_graph_matrix) = V(QA_Accepted_2016_graph)$X_DisplayName
 
-palf <- colorRampPalette(c("gold", "black")) 
-heatmap(QA_Accepted_graph_matrix, Rowv = NA, Colv = NA, col = palf(5), 
+palf <- colorRampPalette(c("gold", "black"))
+heatmap(QA_Accepted_graph_matrix, Rowv = NA, Colv = NA, col = palf(5),
         scale="none", margins=c(10,10) )
 
 # get adjacency matrix
 adj = get.adjacency(QA_Accepted_graph)
-
