@@ -89,6 +89,42 @@ Comments_Answers_2015$Year = NULL
 Comments_Answers_2016$Year = NULL
 rm(temp_answers, temp_comments)
 
+# show total number of each user's questions (all dataset and yearly)
+Freq.Quest = Questions %>% 
+  group_by(AnswerSeeker) %>%
+  summarise(Frequency=n()) %>%
+  arrange(desc(Frequency))
+
+Freq.Quest_2012 = Questions %>%
+  filter(Year == 2012) %>%
+  group_by(AnswerSeeker) %>%
+  summarise(Frequency=n()) %>%
+  arrange(desc(Frequency))
+
+Freq.Quest_2013 = Questions %>%
+  filter(Year == 2013) %>%
+  group_by(AnswerSeeker) %>%
+  summarise(Frequency=n()) %>%
+  arrange(desc(Frequency))
+
+Freq.Quest_2014 = Questions %>%
+  filter(Year == 2014) %>%
+  group_by(AnswerSeeker) %>%
+  summarise(Frequency=n()) %>%
+  arrange(desc(Frequency))
+
+Freq.Quest_2015 = Questions %>%
+  filter(Year == 2015) %>%
+  group_by(AnswerSeeker) %>%
+  summarise(Frequency=n()) %>%
+  arrange(desc(Frequency))
+
+Freq.Quest_2016 = Questions %>%
+  filter(Year == 2016) %>%
+  group_by(AnswerSeeker) %>%
+  summarise(Frequency=n()) %>%
+  arrange(desc(Frequency))
+
 # show total number of each user's answered questions (all dataset and yearly)
 Freq.Ans_Quest = Answered_Questions %>% 
   group_by(AnswerSeeker) %>%
@@ -124,7 +160,6 @@ Freq.Ans_Quest_2016 = Answered_Questions %>%
   group_by(AnswerSeeker) %>%
   summarise(Frequency=n()) %>%
   arrange(desc(Frequency))
-
 
 # show total number of each user's answers (all dataset and yearly)
 Freq.Ans = Answers %>% 
@@ -241,6 +276,42 @@ QA_Accepted_2013 = QA_Accepted %>% filter(Year == 2013)
 QA_Accepted_2014 = QA_Accepted %>% filter(Year == 2014)
 QA_Accepted_2015 = QA_Accepted %>% filter(Year == 2015)
 QA_Accepted_2016 = QA_Accepted %>% filter(Year == 2016)
+
+# show total number of each user's accepted answers (all dataset and yearly)
+Freq.Acc_Ans = QA_Accepted %>% 
+  group_by(AnswerProvider) %>%
+  summarise(Frequency=n()) %>%
+  arrange(desc(Frequency))
+
+Freq.Acc_Ans_2012 = QA_Accepted %>% 
+  filter(Year == 2012) %>%
+  group_by(AnswerProvider) %>%
+  summarise(Frequency=n()) %>%
+  arrange(desc(Frequency))
+
+Freq.Acc_Ans_2013 = QA_Accepted %>% 
+  filter(Year == 2013) %>%
+  group_by(AnswerProvider) %>%
+  summarise(Frequency=n()) %>%
+  arrange(desc(Frequency))
+
+Freq.Acc_Ans_2014 = QA_Accepted %>% 
+  filter(Year == 2014) %>%
+  group_by(AnswerProvider) %>%
+  summarise(Frequency=n()) %>%
+  arrange(desc(Frequency))
+
+Freq.Acc_Ans_2015 = QA_Accepted %>% 
+  filter(Year == 2015) %>%
+  group_by(AnswerProvider) %>%
+  summarise(Frequency=n()) %>%
+  arrange(desc(Frequency))
+
+Freq.Acc_Ans_2016 = QA_Accepted %>% 
+  filter(Year == 2016) %>%
+  group_by(AnswerProvider) %>%
+  summarise(Frequency=n()) %>%
+  arrange(desc(Frequency))
 
 # Removing columns AnswerId and Year
 QA_Accepted$Year = NULL
@@ -553,7 +624,7 @@ el$from = el$idn
 el$idn = NULL
 el = data.frame(from=as.numeric(el$from)-1, 
                 to=as.numeric(el$to)-1 )
-nl$Info = paste0(nl$X_DisplayName,', Rep: ', nl$X_Reputation)
+nl$Info = paste0(nl$X_DisplayName,', R:', nl$X_Reputation,'-U:', nl$X_UpVotes, '-D:', nl$X_DownVotes)
 forceNetwork(Links = el, Nodes = nl, Source="from", Target="to",
              NodeID = "Info", Group = "out_degree",linkWidth = 1,
              linkColour = "black", fontSize=23, zoom=T, legend=T,
@@ -576,7 +647,7 @@ el$from = el$idn
 el$idn = NULL
 el = data.frame(from=as.numeric(el$from)-1, 
                 to=as.numeric(el$to)-1 )
-nl$Info = paste0(nl$X_DisplayName,', Rep: ', nl$X_Reputation)
+nl$Info = paste0(nl$X_DisplayName,', R:', nl$X_Reputation,'-U:', nl$X_UpVotes, '-D:', nl$X_DownVotes)
 forceNetwork(Links = el, Nodes = nl, Source="from", Target="to",
              NodeID = "Info", Group = "out_degree",linkWidth = 1,
              linkColour = "black", fontSize=23, zoom=T, legend=T,
@@ -599,7 +670,7 @@ el$from = el$idn
 el$idn = NULL
 el = data.frame(from=as.numeric(el$from)-1, 
                 to=as.numeric(el$to)-1 )
-nl$Info = paste0(nl$X_DisplayName,', Rep: ', nl$X_Reputation)
+nl$Info = paste0(nl$X_DisplayName,', R:', nl$X_Reputation,'-U:', nl$X_UpVotes, '-D:', nl$X_DownVotes)
 forceNetwork(Links = el, Nodes = nl, Source="from", Target="to",
              NodeID = "Info", Group = "out_degree",linkWidth = 1,
              linkColour = "black", fontSize=23, zoom=T, legend=T,
@@ -622,7 +693,7 @@ el$from = el$idn
 el$idn = NULL
 el = data.frame(from=as.numeric(el$from)-1, 
                 to=as.numeric(el$to)-1 )
-nl$Info = paste0(nl$X_DisplayName,', Rep: ', nl$X_Reputation)
+nl$Info = paste0(nl$X_DisplayName,', R:', nl$X_Reputation,'-U:', nl$X_UpVotes, '-D:', nl$X_DownVotes)
 forceNetwork(Links = el, Nodes = nl, Source="from", Target="to",
              NodeID = "Info", Group = "out_degree",linkWidth = 1,
              linkColour = "black", fontSize=23, zoom=T, legend=T,
@@ -645,7 +716,7 @@ el$from = el$idn
 el$idn = NULL
 el = data.frame(from=as.numeric(el$from)-1, 
                 to=as.numeric(el$to)-1 )
-nl$Info = paste0(nl$X_DisplayName,', Rep: ', nl$X_Reputation)
+nl$Info = paste0(nl$X_DisplayName,', R:', nl$X_Reputation,'-U:', nl$X_UpVotes, '-D:', nl$X_DownVotes)
 forceNetwork(Links = el, Nodes = nl, Source="from", Target="to",
              NodeID = "Info", Group = "out_degree",linkWidth = 1,
              linkColour = "black", fontSize=23, zoom=T, legend=T,
@@ -668,7 +739,7 @@ el$from = el$idn
 el$idn = NULL
 el = data.frame(from=as.numeric(el$from)-1, 
                 to=as.numeric(el$to)-1 )
-nl$Info = paste0(nl$X_DisplayName,', Rep: ', nl$X_Reputation)
+nl$Info = paste0(nl$X_DisplayName,', R:', nl$X_Reputation,'-U:', nl$X_UpVotes, '-D:', nl$X_DownVotes)
 forceNetwork(Links = el, Nodes = nl, Source="from", Target="to",
              NodeID = "Info", Group = "out_degree",linkWidth = 1,
              linkColour = 'black', fontSize=23, zoom=T, legend=T,
@@ -694,7 +765,7 @@ el$from = el$idn
 el$idn = NULL
 el = data.frame(from=as.numeric(el$from)-1, 
                 to=as.numeric(el$to)-1 )
-nl$Info = paste0(nl$X_DisplayName,', Rep: ', nl$X_Reputation)
+nl$Info = paste0(nl$X_DisplayName,', R:', nl$X_Reputation,'-U:', nl$X_UpVotes, '-D:', nl$X_DownVotes)
 forceNetwork(Links = el, Nodes = nl, Source="from", Target="to",
              NodeID = "Info", Group = "out_degree",linkWidth = 1,
              linkColour = "black", fontSize=23, zoom=T, legend=T,
@@ -717,7 +788,7 @@ el$from = el$idn
 el$idn = NULL
 el = data.frame(from=as.numeric(el$from)-1, 
                 to=as.numeric(el$to)-1 )
-nl$Info = paste0(nl$X_DisplayName,', Rep: ', nl$X_Reputation)
+nl$Info = paste0(nl$X_DisplayName,', R:', nl$X_Reputation,'-U:', nl$X_UpVotes, '-D:', nl$X_DownVotes)
 forceNetwork(Links = el, Nodes = nl, Source="from", Target="to",
              NodeID = "Info", Group = "out_degree",linkWidth = 1,
              linkColour = "black", fontSize=23, zoom=T, legend=T,
@@ -740,7 +811,7 @@ el$from = el$idn
 el$idn = NULL
 el = data.frame(from=as.numeric(el$from)-1, 
                 to=as.numeric(el$to)-1 )
-nl$Info = paste0(nl$X_DisplayName,', Rep: ', nl$X_Reputation)
+nl$Info = paste0(nl$X_DisplayName,', R:', nl$X_Reputation,'-U:', nl$X_UpVotes, '-D:', nl$X_DownVotes)
 forceNetwork(Links = el, Nodes = nl, Source="from", Target="to",
              NodeID = "Info", Group = "out_degree",linkWidth = 1,
              linkColour = "black", fontSize=23, zoom=T, legend=T,
@@ -763,7 +834,7 @@ el$from = el$idn
 el$idn = NULL
 el = data.frame(from=as.numeric(el$from)-1, 
                 to=as.numeric(el$to)-1 )
-nl$Info = paste0(nl$X_DisplayName,', Rep: ', nl$X_Reputation)
+nl$Info = paste0(nl$X_DisplayName,', R:', nl$X_Reputation,'-U:', nl$X_UpVotes, '-D:', nl$X_DownVotes)
 forceNetwork(Links = el, Nodes = nl, Source="from", Target="to",
              NodeID = "Info", Group = "out_degree",linkWidth = 1,
              linkColour = "black", fontSize=23, zoom=T, legend=T,
@@ -786,7 +857,7 @@ el$from = el$idn
 el$idn = NULL
 el = data.frame(from=as.numeric(el$from)-1, 
                 to=as.numeric(el$to)-1 )
-nl$Info = paste0(nl$X_DisplayName,', Rep: ', nl$X_Reputation)
+nl$Info = paste0(nl$X_DisplayName,', R:', nl$X_Reputation,'-U:', nl$X_UpVotes, '-D:', nl$X_DownVotes)
 forceNetwork(Links = el, Nodes = nl, Source="from", Target="to",
              NodeID = "Info", Group = "out_degree",linkWidth = 1,
              linkColour = "black", fontSize=23, zoom=T, legend=T,
@@ -809,7 +880,7 @@ el$from = el$idn
 el$idn = NULL
 el = data.frame(from=as.numeric(el$from)-1, 
                 to=as.numeric(el$to)-1 )
-nl$Info = paste0(nl$X_DisplayName,', Rep: ', nl$X_Reputation)
+nl$Info = paste0(nl$X_DisplayName,', R:', nl$X_Reputation,'-U:', nl$X_UpVotes, '-D:', nl$X_DownVotes)
 forceNetwork(Links = el, Nodes = nl, Source="from", Target="to",
              NodeID = "Info", Group = "out_degree",linkWidth = 1,
              linkColour = "black", fontSize=23, zoom=T, legend=T,
