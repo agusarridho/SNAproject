@@ -102,25 +102,24 @@ Freq.Quest_2012 = Questions %>%
   arrange(desc(Frequency))
 
 Freq.Quest_2013 = Questions %>%
-  filter(Year == 2013) %>%
+  filter(Year == 2013 | Year == 2012) %>%
   group_by(AnswerSeeker) %>%
   summarise(Frequency=n()) %>%
   arrange(desc(Frequency))
 
 Freq.Quest_2014 = Questions %>%
-  filter(Year == 2014) %>%
+  filter(Year == 2014 | Year == 2013 | Year == 2012) %>%
   group_by(AnswerSeeker) %>%
   summarise(Frequency=n()) %>%
   arrange(desc(Frequency))
 
 Freq.Quest_2015 = Questions %>%
-  filter(Year == 2015) %>%
+  filter(Year == 2015 | Year == 2014 | Year == 2013 | Year == 2012) %>%
   group_by(AnswerSeeker) %>%
   summarise(Frequency=n()) %>%
   arrange(desc(Frequency))
 
 Freq.Quest_2016 = Questions %>%
-  filter(Year == 2016) %>%
   group_by(AnswerSeeker) %>%
   summarise(Frequency=n()) %>%
   arrange(desc(Frequency))
@@ -138,25 +137,24 @@ Freq.Ans_Quest_2012 = Answered_Questions %>%
   arrange(desc(Frequency))
 
 Freq.Ans_Quest_2013 = Answered_Questions %>%
-  filter(Year == 2013) %>%
+  filter(Year == 2013 | Year == 2012) %>%
   group_by(AnswerSeeker) %>%
   summarise(Frequency=n()) %>%
   arrange(desc(Frequency))
 
 Freq.Ans_Quest_2014 = Answered_Questions %>%
-  filter(Year == 2014) %>%
+  filter(Year == 2014 | Year == 2013 | Year == 2012) %>%
   group_by(AnswerSeeker) %>%
   summarise(Frequency=n()) %>%
   arrange(desc(Frequency))
 
 Freq.Ans_Quest_2015 = Answered_Questions %>%
-  filter(Year == 2015) %>%
+  filter(Year == 2015 | Year == 2014 | Year == 2013 | Year == 2012) %>%
   group_by(AnswerSeeker) %>%
   summarise(Frequency=n()) %>%
   arrange(desc(Frequency))
 
 Freq.Ans_Quest_2016 = Answered_Questions %>%
-  filter(Year == 2016) %>%
   group_by(AnswerSeeker) %>%
   summarise(Frequency=n()) %>%
   arrange(desc(Frequency))
@@ -174,25 +172,24 @@ Freq.Ans_2012 = Answers %>%
   arrange(desc(Frequency))
 
 Freq.Ans_2013 = Answers %>% 
-  filter(Year == 2013) %>%
+  filter(Year == 2013 | Year == 2012) %>%
   group_by(AnswerProvider) %>%
   summarise(Frequency=n()) %>%
   arrange(desc(Frequency))
 
 Freq.Ans_2014 = Answers %>% 
-  filter(Year == 2014) %>%
+  filter(Year == 2014 | Year == 2013 | Year == 2012) %>%
   group_by(AnswerProvider) %>%
   summarise(Frequency=n()) %>%
   arrange(desc(Frequency))
 
 Freq.Ans_2015 = Answers %>% 
-  filter(Year == 2015) %>%
+  filter(Year == 2015 | Year == 2014 | Year == 2013 | Year == 2012) %>%
   group_by(AnswerProvider) %>%
   summarise(Frequency=n()) %>%
   arrange(desc(Frequency))
 
 Freq.Ans_2016 = Answers %>% 
-  filter(Year == 2016) %>%
   group_by(AnswerProvider) %>%
   summarise(Frequency=n()) %>%
   arrange(desc(Frequency))
@@ -246,10 +243,10 @@ QA_All = QA_All %>% filter(!is.na(AnswerSeeker))
 QA_All$Answer = NULL
 QA_All$Question = NULL
 QA_All_2012 = QA_All %>% filter(Year == 2012)
-QA_All_2013 = QA_All %>% filter(Year == 2013)
-QA_All_2014 = QA_All %>% filter(Year == 2014)
-QA_All_2015 = QA_All %>% filter(Year == 2015)
-QA_All_2016 = QA_All %>% filter(Year == 2016)
+QA_All_2013 = QA_All %>% filter(Year == 2013 | Year == 2012)
+QA_All_2014 = QA_All %>% filter(Year == 2014 | Year == 2013 | Year == 2012)
+QA_All_2015 = QA_All %>% filter(Year == 2015 | Year == 2014 | Year == 2013 | Year == 2012)
+QA_All_2016 = QA_All
 
 # Removing columns AnswerId and Year
 QA_All$Year = NULL
@@ -273,10 +270,10 @@ QA_Accepted = QA_Accepted %>% select(AnswerProvider, AnswerSeeker, AnswerDate, Y
 
 QA_Accepted$Answer = NULL
 QA_Accepted_2012 = QA_Accepted %>% filter(Year == 2012)
-QA_Accepted_2013 = QA_Accepted %>% filter(Year == 2013)
-QA_Accepted_2014 = QA_Accepted %>% filter(Year == 2014)
-QA_Accepted_2015 = QA_Accepted %>% filter(Year == 2015)
-QA_Accepted_2016 = QA_Accepted %>% filter(Year == 2016)
+QA_Accepted_2013 = QA_Accepted %>% filter(Year == 2013 | Year == 2012)
+QA_Accepted_2014 = QA_Accepted %>% filter(Year == 2014 | Year == 2013 | Year == 2012)
+QA_Accepted_2015 = QA_Accepted %>% filter(Year == 2015 | Year == 2014 | Year == 2013 | Year == 2012)
+QA_Accepted_2016 = QA_Accepted
 
 # show total number of each user's accepted answers (all dataset and yearly)
 Freq.Acc_Ans = QA_Accepted %>% 
@@ -291,25 +288,24 @@ Freq.Acc_Ans_2012 = QA_Accepted %>%
   arrange(desc(Frequency))
 
 Freq.Acc_Ans_2013 = QA_Accepted %>% 
-  filter(Year == 2013) %>%
+  filter(Year == 2013 | Year == 2012) %>%
   group_by(AnswerProvider) %>%
   summarise(Frequency=n()) %>%
   arrange(desc(Frequency))
 
 Freq.Acc_Ans_2014 = QA_Accepted %>% 
-  filter(Year == 2014) %>%
+  filter(Year == 2014 | Year == 2013 | Year == 2012) %>%
   group_by(AnswerProvider) %>%
   summarise(Frequency=n()) %>%
   arrange(desc(Frequency))
 
 Freq.Acc_Ans_2015 = QA_Accepted %>% 
-  filter(Year == 2015) %>%
+  filter(Year == 2015 | Year == 2014 | Year == 2013 | Year == 2012) %>%
   group_by(AnswerProvider) %>%
   summarise(Frequency=n()) %>%
   arrange(desc(Frequency))
 
 Freq.Acc_Ans_2016 = QA_Accepted %>% 
-  filter(Year == 2016) %>%
   group_by(AnswerProvider) %>%
   summarise(Frequency=n()) %>%
   arrange(desc(Frequency))
@@ -637,7 +633,7 @@ nl$Info = paste0(nl$X_DisplayName,', R:', nl$X_Reputation,'-U:', nl$X_UpVotes, '
 forceNetwork(Links = el, Nodes = nl, Source="from", Target="to",
              NodeID = "Info", Group = "out_degree",linkWidth = 1,
              linkColour = "black", fontSize=23, zoom=T, legend=T,
-             Nodesize=6, opacity = 1, charge=-600, 
+             Nodesize=6, opacity = 1, charge=-2000, 
              width = 1000, height = 1000)
 rm(temp, nl, el)
 
@@ -986,3 +982,7 @@ render.d3movie(net.dyn, usearrows = T,
                plot.par=list(mar=c(0,0,0,0)) )
 
 rm(i, j, k, nodes, links, vs, es)
+
+detach(package:ndtv)
+detach(package:networkDynamic)
+detach(package:network)
