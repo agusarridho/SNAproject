@@ -8,6 +8,8 @@ library(ggplot2)
 # plot QA accepted network (bigger dot means higher OUT degree)
 QA_Accepted_graph = graph.data.frame(QA_Accepted, sports_QAAcc_users, directed = T)
 
+#change
+
 V(QA_Accepted_graph)$shape<-"circle"
 
 V(QA_Accepted_graph)$size = 2
