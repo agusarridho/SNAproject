@@ -262,13 +262,14 @@ rm(temp_Answers, temp_Questions)
 
 # Creating QA_Accepted (accepted answer provider only -> answer seeker) tables (all dataset and yearly)
 temp_Answers = Answers %>% 
-  select(Answer, AnswerProvider, Year)
+  select(Answer, AnswerProvider, Year, AnswerDate)
 
 temp_Answered_Questions = Answered_Questions %>% 
   select(AcceptedAnswer, AnswerSeeker) %>%
   rename(Answer = AcceptedAnswer)
 
 QA_Accepted = merge(temp_Answers, temp_Answered_Questions, by = 'Answer')
+QA_Accepted = QA_Accepted %>% select(AnswerProvider, AnswerSeeker, AnswerDate, Year)
 
 QA_Accepted$Answer = NULL
 QA_Accepted_2012 = QA_Accepted %>% filter(Year == 2012)
@@ -320,6 +321,11 @@ QA_Accepted_2013$Year = NULL
 QA_Accepted_2014$Year = NULL
 QA_Accepted_2015$Year = NULL
 QA_Accepted_2016$Year = NULL
+QA_Accepted_2012$AnswerDate = NULL
+QA_Accepted_2013$AnswerDate = NULL
+QA_Accepted_2014$AnswerDate = NULL
+QA_Accepted_2015$AnswerDate = NULL
+QA_Accepted_2016$AnswerDate = NULL
 rm(temp_Answers, temp_Answered_Questions)
 
 ###** Calculate Network's Scoring **###
@@ -400,7 +406,10 @@ sports_QAAll_2016_users = merge(sports_QAAll_2016_vertices, Users, by.x = 'user_
 
 # For QA_Accepted
 # all dataset
-sports_QAAcc_g = graph.data.frame(QA_Accepted, directed = T)
+temp = QA_Accepted
+temp$AnswerDate = NULL
+sports_QAAcc_g = graph.data.frame(temp, directed = T)
+rm(temp)
 sports_QAAcc_vertices = get.data.frame(sports_QAAcc_g, what='vertices')
 sports_QAAcc_edges = get.data.frame(sports_QAAcc_g, what='edges')
 sports_QAAcc_vertices$betweenness = betweenness(sports_QAAcc_g)
@@ -929,45 +938,51 @@ write.csv(Comments_Questions_2016, file = 'Comments_Questions_2016.csv', row.nam
 
 ###*** Experiment on Networks Evolution ***###
 library(ndtv)
-library(igraph)
 
-nodes = read.csv("Dataset1-Media-Example-NODES.csv", header=T, as.is=T)
-links = read.csv("Dataset1-Media-Example-EDGES.csv", header=T, as.is=T)
+nodes = sports_QAAcc_2016_users %>% 
+  select(user_id, betweenness, closeness, out_degree, in_degree, 
+         eccentricity, X_Reputation, X_UpVotes, X_DownVotes, X_DisplayName) %>%
+  mutate(X_DisplayName = as.character(X_DisplayName), user_id = as.numeric(user_id))
+links = QA_Accepted
+names(links) = c('from','to','date')
+links$month = month(links$date)
+links$year = year(links$date)
+links$terminus = 51
+links$onset = 1
+for(i in 2012:2016){
+  if(i == 2012){
+    for(j in 3:12){
+      links$onset[which(links$month == j & links$year == i)] = j-1
+    }
+  }else{
+    for(j in 1:12){
+      k = ((i - 2012) * 12) - 1
+      links$onset[which(links$month == j & links$year == i)] = j + k
+    }
+  }
+}
 
-vs = data.frame(onset=0, terminus=53, vertex.id=1:17)
-net3 = network(links, vertex.attr=nodes, matrix.type="edgelist", ignore.eval = F)
-net3 %v% "col" = c("red", "blue", "gold")[net3 %v% "media.type"]
+net = network(links, vertex.attr=nodes, matrix.type="edgelist")
+vs = data.frame(onset=0, terminus=51, vertex.id = nodes$user_id)
+es = links %>% select(onset, terminus, from, to) %>% rename(head = from, tail = to)
+net.dyn = networkDynamic(base.net=net, edge.spells=es, vertex.spells=vs)
 
-head = as.matrix(net3, matrix.type="edgelist")[,1]
-tail = as.matrix(net3, matrix.type="edgelist")[,2]
-es = data.frame(onset=1:52, terminus=53, head=head, tail=tail)
+compute.animation(net.dyn, animation.mode = "kamadakawai",
+                  slice.par=list(start=0, end=51, interval=10, 
+                                 aggregate.dur=10, rule='any'))
 
-net3.dyn = networkDynamic(base.net=net3, edge.spells=es, vertex.spells=vs)
-
-plot(net3.dyn, vertex.cex=(net3 %v% "audience.size")/7, vertex.col='col')
-
-compute.animation(net3.dyn, animation.mode = "kamadakawai",
-                  slice.par=list(start=0, end=53, interval=1, 
-                                 aggregate.dur=1, rule='any'))
-
-render.d3movie(net3.dyn, usearrows = F,
+render.d3movie(net.dyn, usearrows = T,
                legend = T,
-               displaylabels = F, label=net3 %v% "media",
+               displaylabels = F, label=net %v% "user_id",
                bg="white", vertex.border="gray",
-               vertex.cex = (net3 %v% "audience.size")/10,  
-               vertex.col = net3.dyn %v% "col",
-               edge.lwd = (net3.dyn %e% "weight")/4, 
+               vertex.cex = 4,  
+               vertex.col = 'red',
+               edge.lwd = 1, 
                edge.col = 'black',
-               vertex.tooltip = paste("<b>Name:</b>", (net3.dyn %v% "media") , "<br>",
-                                      "<b>Type:</b>", (net3.dyn %v% "type.label")),
-               edge.tooltip = paste("<b>Edge type:</b>", (net3.dyn %e% "type"), "<br>", 
-                                    "<b>Edge weight:</b>", (net3.dyn %e% "weight" ) ),
+               vertex.tooltip = paste("<b>Name:</b>", (net.dyn %v% "X_DisplayName") , "<br>",
+                                      "<b>Reputation:</b>", (net.dyn %v% "X_Reputation")),
                launchBrowser=T, filename="Media-Network-Dynamic.html",
                render.par=list(tween.frames = 30, show.time = F),
                plot.par=list(mar=c(0,0,0,0)) )
 
-
-# Show time evolution through static images at different time points:
-filmstrip(net3.dyn, displaylabels=F, mfrow=c(2, 3),
-          slice.par=list(start=0, end=49, interval=10, 
-                         aggregate.dur=10, rule='any'))
+rm(i, j, k, nodes, links, vs, es)
