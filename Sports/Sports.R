@@ -534,6 +534,289 @@ sportsCA_2016_vertices$eccentricity = eccentricity(sportsCA_2016_g)
 colnames(sportsCA_2016_vertices)[1] = 'user_id'
 sportsCA_2016_users = merge(sportsCA_2016_vertices, Users, by.x = 'user_id', by.y = 'X_Id', all.x = T)
 
+
+###*** Interactive Networks QAAcc ***###
+library(networkD3) 
+
+# all dataset
+nl = cbind(idn=factor(sports_QAAcc_users$user_id, 
+                      levels=sports_QAAcc_users$user_id), 
+           sports_QAAcc_users)
+
+el = sports_QAAcc_edges
+temp = nl %>% select(user_id, idn)
+el = merge(el, temp, by.x = 'to', by.y = 'user_id', all.x = T)
+el$to = el$idn
+el$idn = NULL
+el = merge(el, temp, by.x = 'from', by.y = 'user_id', all.x = T)
+el$from = el$idn
+el$idn = NULL
+el = data.frame(from=as.numeric(el$from)-1, 
+                to=as.numeric(el$to)-1 )
+nl$Info = paste0(nl$X_DisplayName,', Rep: ', nl$X_Reputation)
+forceNetwork(Links = el, Nodes = nl, Source="from", Target="to",
+             NodeID = "Info", Group = "out_degree",linkWidth = 1,
+             linkColour = "black", fontSize=23, zoom=T, legend=T,
+             Nodesize=6, opacity = 1, charge=-600, 
+             width = 1000, height = 1000)
+rm(temp, nl, el)
+
+# 2012
+nl = cbind(idn=factor(sports_QAAcc_2012_users$user_id, 
+                      levels=sports_QAAcc_2012_users$user_id), 
+           sports_QAAcc_2012_users)
+
+el = sports_QAAcc_2012_edges
+temp = nl %>% select(user_id, idn)
+el = merge(el, temp, by.x = 'to', by.y = 'user_id', all.x = T)
+el$to = el$idn
+el$idn = NULL
+el = merge(el, temp, by.x = 'from', by.y = 'user_id', all.x = T)
+el$from = el$idn
+el$idn = NULL
+el = data.frame(from=as.numeric(el$from)-1, 
+                to=as.numeric(el$to)-1 )
+nl$Info = paste0(nl$X_DisplayName,', Rep: ', nl$X_Reputation)
+forceNetwork(Links = el, Nodes = nl, Source="from", Target="to",
+             NodeID = "Info", Group = "out_degree",linkWidth = 1,
+             linkColour = "black", fontSize=23, zoom=T, legend=T,
+             Nodesize=6, opacity = 1, charge=-600, 
+             width = 1000, height = 1000)
+rm(temp, nl, el)
+
+# 2013
+nl = cbind(idn=factor(sports_QAAcc_2013_users$user_id, 
+                      levels=sports_QAAcc_2013_users$user_id), 
+           sports_QAAcc_2013_users)
+
+el = sports_QAAcc_2013_edges
+temp = nl %>% select(user_id, idn)
+el = merge(el, temp, by.x = 'to', by.y = 'user_id', all.x = T)
+el$to = el$idn
+el$idn = NULL
+el = merge(el, temp, by.x = 'from', by.y = 'user_id', all.x = T)
+el$from = el$idn
+el$idn = NULL
+el = data.frame(from=as.numeric(el$from)-1, 
+                to=as.numeric(el$to)-1 )
+nl$Info = paste0(nl$X_DisplayName,', Rep: ', nl$X_Reputation)
+forceNetwork(Links = el, Nodes = nl, Source="from", Target="to",
+             NodeID = "Info", Group = "out_degree",linkWidth = 1,
+             linkColour = "black", fontSize=23, zoom=T, legend=T,
+             Nodesize=6, opacity = 1, charge=-600, 
+             width = 1000, height = 1000)
+rm(temp, nl, el)
+
+# 2014
+nl = cbind(idn=factor(sports_QAAcc_2014_users$user_id, 
+                      levels=sports_QAAcc_2014_users$user_id), 
+           sports_QAAcc_2014_users)
+
+el = sports_QAAcc_2014_edges
+temp = nl %>% select(user_id, idn)
+el = merge(el, temp, by.x = 'to', by.y = 'user_id', all.x = T)
+el$to = el$idn
+el$idn = NULL
+el = merge(el, temp, by.x = 'from', by.y = 'user_id', all.x = T)
+el$from = el$idn
+el$idn = NULL
+el = data.frame(from=as.numeric(el$from)-1, 
+                to=as.numeric(el$to)-1 )
+nl$Info = paste0(nl$X_DisplayName,', Rep: ', nl$X_Reputation)
+forceNetwork(Links = el, Nodes = nl, Source="from", Target="to",
+             NodeID = "Info", Group = "out_degree",linkWidth = 1,
+             linkColour = "black", fontSize=23, zoom=T, legend=T,
+             Nodesize=6, opacity = 1, charge=-600, 
+             width = 1000, height = 1000)
+rm(temp, nl, el)
+
+# 2015
+nl = cbind(idn=factor(sports_QAAcc_2015_users$user_id, 
+                      levels=sports_QAAcc_2015_users$user_id), 
+           sports_QAAcc_2015_users)
+
+el = sports_QAAcc_2015_edges
+temp = nl %>% select(user_id, idn)
+el = merge(el, temp, by.x = 'to', by.y = 'user_id', all.x = T)
+el$to = el$idn
+el$idn = NULL
+el = merge(el, temp, by.x = 'from', by.y = 'user_id', all.x = T)
+el$from = el$idn
+el$idn = NULL
+el = data.frame(from=as.numeric(el$from)-1, 
+                to=as.numeric(el$to)-1 )
+nl$Info = paste0(nl$X_DisplayName,', Rep: ', nl$X_Reputation)
+forceNetwork(Links = el, Nodes = nl, Source="from", Target="to",
+             NodeID = "Info", Group = "out_degree",linkWidth = 1,
+             linkColour = "black", fontSize=23, zoom=T, legend=T,
+             Nodesize=6, opacity = 1, charge=-600, 
+             width = 1000, height = 1000)
+rm(temp, nl, el)
+
+# 2016
+nl = cbind(idn=factor(sports_QAAcc_2016_users$user_id, 
+                      levels=sports_QAAcc_2016_users$user_id), 
+           sports_QAAcc_2016_users)
+
+el = sports_QAAcc_2016_edges
+temp = nl %>% select(user_id, idn)
+el = merge(el, temp, by.x = 'to', by.y = 'user_id', all.x = T)
+el$to = el$idn
+el$idn = NULL
+el = merge(el, temp, by.x = 'from', by.y = 'user_id', all.x = T)
+el$from = el$idn
+el$idn = NULL
+el = data.frame(from=as.numeric(el$from)-1, 
+                to=as.numeric(el$to)-1 )
+nl$Info = paste0(nl$X_DisplayName,', Rep: ', nl$X_Reputation)
+forceNetwork(Links = el, Nodes = nl, Source="from", Target="to",
+             NodeID = "Info", Group = "out_degree",linkWidth = 1,
+             linkColour = 'black', fontSize=23, zoom=T, legend=T,
+             Nodesize=6, opacity = 1, charge=-600, 
+             width = 1000, height = 1000)
+rm(temp, nl, el)
+
+###*** Interactive Networks QAAll ***###
+library(networkD3) 
+
+# all dataset
+nl = cbind(idn=factor(sports_QAAll_users$user_id, 
+                      levels=sports_QAAll_users$user_id), 
+           sports_QAAll_users)
+
+el = sports_QAAll_edges
+temp = nl %>% select(user_id, idn)
+el = merge(el, temp, by.x = 'to', by.y = 'user_id', all.x = T)
+el$to = el$idn
+el$idn = NULL
+el = merge(el, temp, by.x = 'from', by.y = 'user_id', all.x = T)
+el$from = el$idn
+el$idn = NULL
+el = data.frame(from=as.numeric(el$from)-1, 
+                to=as.numeric(el$to)-1 )
+nl$Info = paste0(nl$X_DisplayName,', Rep: ', nl$X_Reputation)
+forceNetwork(Links = el, Nodes = nl, Source="from", Target="to",
+             NodeID = "Info", Group = "out_degree",linkWidth = 1,
+             linkColour = "black", fontSize=23, zoom=T, legend=T,
+             Nodesize=6, opacity = 1, charge=-600, 
+             width = 1000, height = 1000)
+rm(temp, nl, el)
+
+# 2012
+nl = cbind(idn=factor(sports_QAAll_2012_users$user_id, 
+                      levels=sports_QAAll_2012_users$user_id), 
+           sports_QAAll_2012_users)
+
+el = sports_QAAll_2012_edges
+temp = nl %>% select(user_id, idn)
+el = merge(el, temp, by.x = 'to', by.y = 'user_id', all.x = T)
+el$to = el$idn
+el$idn = NULL
+el = merge(el, temp, by.x = 'from', by.y = 'user_id', all.x = T)
+el$from = el$idn
+el$idn = NULL
+el = data.frame(from=as.numeric(el$from)-1, 
+                to=as.numeric(el$to)-1 )
+nl$Info = paste0(nl$X_DisplayName,', Rep: ', nl$X_Reputation)
+forceNetwork(Links = el, Nodes = nl, Source="from", Target="to",
+             NodeID = "Info", Group = "out_degree",linkWidth = 1,
+             linkColour = "black", fontSize=23, zoom=T, legend=T,
+             Nodesize=6, opacity = 1, charge=-600, 
+             width = 1000, height = 1000)
+rm(temp, nl, el)
+
+# 2013
+nl = cbind(idn=factor(sports_QAAll_2013_users$user_id, 
+                      levels=sports_QAAll_2013_users$user_id), 
+           sports_QAAll_2013_users)
+
+el = sports_QAAll_2013_edges
+temp = nl %>% select(user_id, idn)
+el = merge(el, temp, by.x = 'to', by.y = 'user_id', all.x = T)
+el$to = el$idn
+el$idn = NULL
+el = merge(el, temp, by.x = 'from', by.y = 'user_id', all.x = T)
+el$from = el$idn
+el$idn = NULL
+el = data.frame(from=as.numeric(el$from)-1, 
+                to=as.numeric(el$to)-1 )
+nl$Info = paste0(nl$X_DisplayName,', Rep: ', nl$X_Reputation)
+forceNetwork(Links = el, Nodes = nl, Source="from", Target="to",
+             NodeID = "Info", Group = "out_degree",linkWidth = 1,
+             linkColour = "black", fontSize=23, zoom=T, legend=T,
+             Nodesize=6, opacity = 1, charge=-600, 
+             width = 1000, height = 1000)
+rm(temp, nl, el)
+
+# 2014
+nl = cbind(idn=factor(sports_QAAll_2014_users$user_id, 
+                      levels=sports_QAAll_2014_users$user_id), 
+           sports_QAAll_2014_users)
+
+el = sports_QAAll_2014_edges
+temp = nl %>% select(user_id, idn)
+el = merge(el, temp, by.x = 'to', by.y = 'user_id', all.x = T)
+el$to = el$idn
+el$idn = NULL
+el = merge(el, temp, by.x = 'from', by.y = 'user_id', all.x = T)
+el$from = el$idn
+el$idn = NULL
+el = data.frame(from=as.numeric(el$from)-1, 
+                to=as.numeric(el$to)-1 )
+nl$Info = paste0(nl$X_DisplayName,', Rep: ', nl$X_Reputation)
+forceNetwork(Links = el, Nodes = nl, Source="from", Target="to",
+             NodeID = "Info", Group = "out_degree",linkWidth = 1,
+             linkColour = "black", fontSize=23, zoom=T, legend=T,
+             Nodesize=6, opacity = 1, charge=-600, 
+             width = 1000, height = 1000)
+rm(temp, nl, el)
+
+# 2015
+nl = cbind(idn=factor(sports_QAAll_2015_users$user_id, 
+                      levels=sports_QAAll_2015_users$user_id), 
+           sports_QAAll_2015_users)
+
+el = sports_QAAll_2015_edges
+temp = nl %>% select(user_id, idn)
+el = merge(el, temp, by.x = 'to', by.y = 'user_id', all.x = T)
+el$to = el$idn
+el$idn = NULL
+el = merge(el, temp, by.x = 'from', by.y = 'user_id', all.x = T)
+el$from = el$idn
+el$idn = NULL
+el = data.frame(from=as.numeric(el$from)-1, 
+                to=as.numeric(el$to)-1 )
+nl$Info = paste0(nl$X_DisplayName,', Rep: ', nl$X_Reputation)
+forceNetwork(Links = el, Nodes = nl, Source="from", Target="to",
+             NodeID = "Info", Group = "out_degree",linkWidth = 1,
+             linkColour = "black", fontSize=23, zoom=T, legend=T,
+             Nodesize=6, opacity = 1, charge=-600, 
+             width = 1000, height = 1000)
+rm(temp, nl, el)
+
+# 2016
+nl = cbind(idn=factor(sports_QAAll_2016_users$user_id, 
+                      levels=sports_QAAll_2016_users$user_id), 
+           sports_QAAll_2016_users)
+
+el = sports_QAAll_2016_edges
+temp = nl %>% select(user_id, idn)
+el = merge(el, temp, by.x = 'to', by.y = 'user_id', all.x = T)
+el$to = el$idn
+el$idn = NULL
+el = merge(el, temp, by.x = 'from', by.y = 'user_id', all.x = T)
+el$from = el$idn
+el$idn = NULL
+el = data.frame(from=as.numeric(el$from)-1, 
+                to=as.numeric(el$to)-1 )
+nl$Info = paste0(nl$X_DisplayName,', Rep: ', nl$X_Reputation)
+forceNetwork(Links = el, Nodes = nl, Source="from", Target="to",
+             NodeID = "Info", Group = "out_degree",linkWidth = 1,
+             linkColour = "black", fontSize=23, zoom=T, legend=T,
+             Nodesize=6, opacity = 1, charge=-600, 
+             width = 1000, height = 1000)
+rm(temp, nl, el)
+
 ###** Export to CSVs **###
 
 # all dataset
@@ -572,143 +855,48 @@ write.csv(QA_2016, file = 'QA_2016.csv', row.names = F)
 write.csv(Comments_Answers_2016, file = 'Comments_Answers_2016.csv', row.names = F)
 write.csv(Comments_Questions_2016, file = 'Comments_Questions_2016.csv', row.names = F)
 
-###*** Interactive Networks QAAcc ***###
-library(networkD3) 
 
-# all dataset
-nl = cbind(idn=factor(sports_QAAcc_users$user_id, 
-                      levels=sports_QAAcc_users$user_id), 
-           sports_QAAcc_users)
+###*** Experiment on Networks Evolution ***###
+library(ndtv)
+library(igraph)
 
-el = sports_QAAcc_edges
-temp = nl %>% select(user_id, idn)
-el = merge(el, temp, by.x = 'to', by.y = 'user_id', all.x = T)
-el$to = el$idn
-el$idn = NULL
-el = merge(el, temp, by.x = 'from', by.y = 'user_id', all.x = T)
-el$from = el$idn
-el$idn = NULL
-el = data.frame(from=as.numeric(el$from)-1, 
-                to=as.numeric(el$to)-1 )
-nl$Info = paste0(nl$X_DisplayName,', Rep: ', nl$X_Reputation)
-forceNetwork(Links = el, Nodes = nl, Source="from", Target="to",
-             NodeID = "Info", Group = "out_degree",linkWidth = 1,
-             linkColour = "#afafaf", fontSize=23, zoom=T, legend=T,
-             Nodesize=6, opacity = 0.9, charge=-600, 
-             width = 1000, height = 1000)
-rm(temp, nl, el)
+nodes = read.csv("Dataset1-Media-Example-NODES.csv", header=T, as.is=T)
+links = read.csv("Dataset1-Media-Example-EDGES.csv", header=T, as.is=T)
 
-# 2012
-nl = cbind(idn=factor(sports_QAAcc_2012_users$user_id, 
-                      levels=sports_QAAcc_2012_users$user_id), 
-           sports_QAAcc_2012_users)
+vs = data.frame(onset=0, terminus=53, vertex.id=1:17)
+net3 = network(links, vertex.attr=nodes, matrix.type="edgelist", ignore.eval = F)
+net3 %v% "col" = c("red", "blue", "gold")[net3 %v% "media.type"]
 
-el = sports_QAAcc_2012_edges
-temp = nl %>% select(user_id, idn)
-el = merge(el, temp, by.x = 'to', by.y = 'user_id', all.x = T)
-el$to = el$idn
-el$idn = NULL
-el = merge(el, temp, by.x = 'from', by.y = 'user_id', all.x = T)
-el$from = el$idn
-el$idn = NULL
-el = data.frame(from=as.numeric(el$from)-1, 
-                to=as.numeric(el$to)-1 )
-nl$Info = paste0(nl$X_DisplayName,', Rep: ', nl$X_Reputation)
-forceNetwork(Links = el, Nodes = nl, Source="from", Target="to",
-             NodeID = "Info", Group = "out_degree",linkWidth = 1,
-             linkColour = "#afafaf", fontSize=23, zoom=T, legend=T,
-             Nodesize=6, opacity = 0.9, charge=-600, 
-             width = 1000, height = 1000)
-rm(temp, nl, el)
+head = as.matrix(net3, matrix.type="edgelist")[,1]
+tail = as.matrix(net3, matrix.type="edgelist")[,2]
+es = data.frame(onset=1:52, terminus=53, head=head, tail=tail)
 
-# 2013
-nl = cbind(idn=factor(sports_QAAcc_2013_users$user_id, 
-                      levels=sports_QAAcc_2013_users$user_id), 
-           sports_QAAcc_2013_users)
+net3.dyn = networkDynamic(base.net=net3, edge.spells=es, vertex.spells=vs)
 
-el = sports_QAAcc_2013_edges
-temp = nl %>% select(user_id, idn)
-el = merge(el, temp, by.x = 'to', by.y = 'user_id', all.x = T)
-el$to = el$idn
-el$idn = NULL
-el = merge(el, temp, by.x = 'from', by.y = 'user_id', all.x = T)
-el$from = el$idn
-el$idn = NULL
-el = data.frame(from=as.numeric(el$from)-1, 
-                to=as.numeric(el$to)-1 )
-nl$Info = paste0(nl$X_DisplayName,', Rep: ', nl$X_Reputation)
-forceNetwork(Links = el, Nodes = nl, Source="from", Target="to",
-             NodeID = "Info", Group = "out_degree",linkWidth = 1,
-             linkColour = "#afafaf", fontSize=23, zoom=T, legend=T,
-             Nodesize=6, opacity = 0.9, charge=-600, 
-             width = 1000, height = 1000)
-rm(temp, nl, el)
+plot(net3.dyn, vertex.cex=(net3 %v% "audience.size")/7, vertex.col='col')
 
-# 2014
-nl = cbind(idn=factor(sports_QAAcc_2014_users$user_id, 
-                      levels=sports_QAAcc_2014_users$user_id), 
-           sports_QAAcc_2014_users)
+compute.animation(net3.dyn, animation.mode = "kamadakawai",
+                  slice.par=list(start=0, end=53, interval=1, 
+                                 aggregate.dur=1, rule='any'))
 
-el = sports_QAAcc_2014_edges
-temp = nl %>% select(user_id, idn)
-el = merge(el, temp, by.x = 'to', by.y = 'user_id', all.x = T)
-el$to = el$idn
-el$idn = NULL
-el = merge(el, temp, by.x = 'from', by.y = 'user_id', all.x = T)
-el$from = el$idn
-el$idn = NULL
-el = data.frame(from=as.numeric(el$from)-1, 
-                to=as.numeric(el$to)-1 )
-nl$Info = paste0(nl$X_DisplayName,', Rep: ', nl$X_Reputation)
-forceNetwork(Links = el, Nodes = nl, Source="from", Target="to",
-             NodeID = "Info", Group = "out_degree",linkWidth = 1,
-             linkColour = "#afafaf", fontSize=23, zoom=T, legend=T,
-             Nodesize=6, opacity = 0.9, charge=-600, 
-             width = 1000, height = 1000)
-rm(temp, nl, el)
+render.d3movie(net3.dyn, usearrows = F,
+               legend = T,
+               displaylabels = F, label=net3 %v% "media",
+               bg="white", vertex.border="gray",
+               vertex.cex = (net3 %v% "audience.size")/10,  
+               vertex.col = net3.dyn %v% "col",
+               edge.lwd = (net3.dyn %e% "weight")/4, 
+               edge.col = 'black',
+               vertex.tooltip = paste("<b>Name:</b>", (net3.dyn %v% "media") , "<br>",
+                                      "<b>Type:</b>", (net3.dyn %v% "type.label")),
+               edge.tooltip = paste("<b>Edge type:</b>", (net3.dyn %e% "type"), "<br>", 
+                                    "<b>Edge weight:</b>", (net3.dyn %e% "weight" ) ),
+               launchBrowser=T, filename="Media-Network-Dynamic.html",
+               render.par=list(tween.frames = 30, show.time = F),
+               plot.par=list(mar=c(0,0,0,0)) )
 
-# 2015
-nl = cbind(idn=factor(sports_QAAcc_2015_users$user_id, 
-                      levels=sports_QAAcc_2015_users$user_id), 
-           sports_QAAcc_2015_users)
 
-el = sports_QAAcc_2015_edges
-temp = nl %>% select(user_id, idn)
-el = merge(el, temp, by.x = 'to', by.y = 'user_id', all.x = T)
-el$to = el$idn
-el$idn = NULL
-el = merge(el, temp, by.x = 'from', by.y = 'user_id', all.x = T)
-el$from = el$idn
-el$idn = NULL
-el = data.frame(from=as.numeric(el$from)-1, 
-                to=as.numeric(el$to)-1 )
-nl$Info = paste0(nl$X_DisplayName,', Rep: ', nl$X_Reputation)
-forceNetwork(Links = el, Nodes = nl, Source="from", Target="to",
-             NodeID = "Info", Group = "out_degree",linkWidth = 1,
-             linkColour = "#afafaf", fontSize=23, zoom=T, legend=T,
-             Nodesize=6, opacity = 0.9, charge=-600, 
-             width = 1000, height = 1000)
-rm(temp, nl, el)
-
-# 2016
-nl = cbind(idn=factor(sports_QAAcc_2016_users$user_id, 
-                      levels=sports_QAAcc_2016_users$user_id), 
-           sports_QAAcc_2016_users)
-
-el = sports_QAAcc_2016_edges
-temp = nl %>% select(user_id, idn)
-el = merge(el, temp, by.x = 'to', by.y = 'user_id', all.x = T)
-el$to = el$idn
-el$idn = NULL
-el = merge(el, temp, by.x = 'from', by.y = 'user_id', all.x = T)
-el$from = el$idn
-el$idn = NULL
-el = data.frame(from=as.numeric(el$from)-1, 
-                to=as.numeric(el$to)-1 )
-nl$Info = paste0(nl$X_DisplayName,', Rep: ', nl$X_Reputation)
-forceNetwork(Links = el, Nodes = nl, Source="from", Target="to",
-             NodeID = "Info", Group = "out_degree",linkWidth = 1,
-             linkColour = "#afafaf", fontSize=23, zoom=T, legend=T,
-             Nodesize=6, opacity = 0.9, charge=-600, 
-             width = 1000, height = 1000)
-rm(temp, nl, el)
+# Show time evolution through static images at different time points:
+filmstrip(net3.dyn, displaylabels=F, mfrow=c(2, 3),
+          slice.par=list(start=0, end=49, interval=10, 
+                         aggregate.dur=10, rule='any'))
