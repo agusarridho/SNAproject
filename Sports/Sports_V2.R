@@ -319,6 +319,158 @@ in_degree_evo = in_degree_evo %>% arrange(desc(in_degree_2016))
 
 rm(temp_2015, temp_2014, temp_2013, temp_2012)
 
+###** Networks Plotting **###
+# 2012
+# preparing
+QA_Accepted_2012_graph = graph.data.frame(QA_Accepted_2012, 
+                                          sports_QAAcc_2012_users, directed = T)
+V(QA_Accepted_2012_graph)$shape<-"circle"
+V(QA_Accepted_2012_graph)$size = 2
+V(QA_Accepted_2012_graph)$size = (degree(QA_Accepted_2012_graph,mode = 'out')/10)+1
+V(QA_Accepted_2012_graph)$label = V(QA_Accepted_2012_graph)$name
+V(QA_Accepted_2012_graph)$label.cex = 0.5
+l <- layout.fruchterman.reingold(QA_Accepted_2012_graph)
+# out_degree
+E(QA_Accepted_2012_graph)$arrow.size <- 0.02
+plot(QA_Accepted_2012_graph,
+     layout=l *10,
+     vertex.shape='circle',
+     vertex.label = ifelse(degree(QA_Accepted_2012_graph,mode = 'out') > 30, V(QA_Accepted_2012_graph)$label, NA),
+     vertex.label.color='black',
+     vertex.label.font = 2,
+     main='QA accepted network 2012 - OUT degree highlighted')
+# in_degree
+E(QA_Accepted_2012_graph)$arrow.size <- 0.02
+plot(QA_Accepted_2012_graph,
+     layout=layout.fruchterman.reingold,
+     vertex.size = (degree(QA_Accepted_2012_graph,mode = 'in')/10)+1,
+     vertex.shape='circle',
+     vertex.label = ifelse(degree(QA_Accepted_2012_graph,mode = 'in') > 30, V(QA_Accepted_2012_graph)$label, NA),
+     vertex.label.color='black',
+     vertex.label.font = 2,
+     main='QA accepted network 2012 - IN degree highlighted')
+
+# 2013
+# preparing
+QA_Accepted_2013_graph = graph.data.frame(QA_Accepted_2013, 
+                                          sports_QAAcc_2013_users, directed = T)
+V(QA_Accepted_2013_graph)$shape<-"circle"
+V(QA_Accepted_2013_graph)$size = 2
+V(QA_Accepted_2013_graph)$size = (degree(QA_Accepted_2013_graph,mode = 'out')/10)+1
+V(QA_Accepted_2013_graph)$label = V(QA_Accepted_2013_graph)$name
+V(QA_Accepted_2013_graph)$label.cex = 0.5
+l <- layout.fruchterman.reingold(QA_Accepted_2013_graph)
+# out_degree
+E(QA_Accepted_2013_graph)$arrow.size <- 0.02
+plot(QA_Accepted_2013_graph,
+     layout=l *10,
+     vertex.shape='circle',
+     vertex.label = ifelse(degree(QA_Accepted_2013_graph,mode = 'out') > 30, V(QA_Accepted_2013_graph)$label, NA),
+     vertex.label.color='black',
+     vertex.label.font = 2,
+     main='QA accepted network 2013 - OUT degree highlighted')
+# in_degree
+E(QA_Accepted_2013_graph)$arrow.size <- 0.02
+plot(QA_Accepted_2013_graph,
+     layout=layout.fruchterman.reingold,
+     vertex.size = (degree(QA_Accepted_2013_graph,mode = 'in')/10)+1,
+     vertex.shape='circle',
+     vertex.label = ifelse(degree(QA_Accepted_2013_graph,mode = 'in') > 30, V(QA_Accepted_2013_graph)$label, NA),
+     vertex.label.color='black',
+     vertex.label.font = 2,
+     main='QA accepted network 2013 - IN degree highlighted')
+
+# 2014
+# preparing
+QA_Accepted_2014_graph = graph.data.frame(QA_Accepted_2014, 
+                                          sports_QAAcc_2014_users, directed = T)
+V(QA_Accepted_2014_graph)$shape<-"circle"
+V(QA_Accepted_2014_graph)$size = 2
+V(QA_Accepted_2014_graph)$size = (degree(QA_Accepted_2014_graph,mode = 'out')/10)+1
+V(QA_Accepted_2014_graph)$label = V(QA_Accepted_2014_graph)$name
+V(QA_Accepted_2014_graph)$label.cex = 0.5
+l <- layout.fruchterman.reingold(QA_Accepted_2014_graph)
+# out_degree
+E(QA_Accepted_2014_graph)$arrow.size <- 0.02
+plot(QA_Accepted_2014_graph,
+     layout=l *10,
+     vertex.shape='circle',
+     vertex.label = ifelse(degree(QA_Accepted_2014_graph,mode = 'out') > 30, V(QA_Accepted_2014_graph)$label, NA),
+     vertex.label.color='black',
+     vertex.label.font = 2,
+     main='QA accepted network 2014 - OUT degree highlighted')
+# in_degree
+E(QA_Accepted_2014_graph)$arrow.size <- 0.02
+plot(QA_Accepted_2014_graph,
+     layout=layout.fruchterman.reingold,
+     vertex.size = (degree(QA_Accepted_2014_graph,mode = 'in')/10)+1,
+     vertex.shape='circle',
+     vertex.label = ifelse(degree(QA_Accepted_2014_graph,mode = 'in') > 30, V(QA_Accepted_2014_graph)$label, NA),
+     vertex.label.color='black',
+     vertex.label.font = 2,
+     main='QA accepted network 2014 - IN degree highlighted')
+
+# 2015
+# preparing
+QA_Accepted_2015_graph = graph.data.frame(QA_Accepted_2015, 
+                                          sports_QAAcc_2015_users, directed = T)
+V(QA_Accepted_2015_graph)$shape<-"circle"
+V(QA_Accepted_2015_graph)$size = 2
+V(QA_Accepted_2015_graph)$size = (degree(QA_Accepted_2015_graph,mode = 'out')/10)+1
+V(QA_Accepted_2015_graph)$label = V(QA_Accepted_2015_graph)$name
+V(QA_Accepted_2015_graph)$label.cex = 0.5
+l <- layout.fruchterman.reingold(QA_Accepted_2015_graph)
+# out_degree
+E(QA_Accepted_2015_graph)$arrow.size <- 0.02
+plot(QA_Accepted_2015_graph,
+     layout=l *10,
+     vertex.shape='circle',
+     vertex.label = ifelse(degree(QA_Accepted_2015_graph,mode = 'out') > 30, V(QA_Accepted_2015_graph)$label, NA),
+     vertex.label.color='black',
+     vertex.label.font = 2,
+     main='QA accepted network 2015 - OUT degree highlighted')
+# in_degree
+E(QA_Accepted_2015_graph)$arrow.size <- 0.02
+plot(QA_Accepted_2015_graph,
+     layout=layout.fruchterman.reingold,
+     vertex.size = (degree(QA_Accepted_2015_graph,mode = 'in')/10)+1,
+     vertex.shape='circle',
+     vertex.label = ifelse(degree(QA_Accepted_2015_graph,mode = 'in') > 30, V(QA_Accepted_2015_graph)$label, NA),
+     vertex.label.color='black',
+     vertex.label.font = 2,
+     main='QA accepted network 2015 - IN degree highlighted')
+
+# 2016
+# preparing
+QA_Accepted_2016_graph = graph.data.frame(QA_Accepted_2016, 
+                                          sports_QAAcc_2016_users, directed = T)
+V(QA_Accepted_2016_graph)$shape<-"circle"
+V(QA_Accepted_2016_graph)$size = 2
+V(QA_Accepted_2016_graph)$size = (degree(QA_Accepted_2016_graph,mode = 'out')/10)+1
+V(QA_Accepted_2016_graph)$label = V(QA_Accepted_2016_graph)$name
+V(QA_Accepted_2016_graph)$label.cex = 0.5
+l <- layout.fruchterman.reingold(QA_Accepted_2016_graph)
+# out_degree
+E(QA_Accepted_2016_graph)$arrow.size <- 0.02
+plot(QA_Accepted_2016_graph,
+     layout=l *10,
+     vertex.shape='circle',
+     vertex.label = ifelse(degree(QA_Accepted_2016_graph,mode = 'out') > 30, V(QA_Accepted_2016_graph)$label, NA),
+     vertex.label.color='black',
+     vertex.label.font = 2,
+     main='QA accepted network 2016 - OUT degree highlighted')
+# in_degree
+E(QA_Accepted_2016_graph)$arrow.size <- 0.02
+plot(QA_Accepted_2016_graph,
+     layout=layout.fruchterman.reingold,
+     vertex.size = (degree(QA_Accepted_2016_graph,mode = 'in')/10)+1,
+     vertex.shape='circle',
+     vertex.label = ifelse(degree(QA_Accepted_2016_graph,mode = 'in') > 30, V(QA_Accepted_2016_graph)$label, NA),
+     vertex.label.color='black',
+     vertex.label.font = 2,
+     main='QA accepted network 2016 - IN degree highlighted')
+
+
 ###** Export CSVs **###
 write.csv(out_degree_evo, file = "out_degree_evo.csv", row.names = F)
 write.csv(in_degree_evo, file = "in_degree_evo.csv", row.names = F)
