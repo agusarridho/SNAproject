@@ -480,3 +480,31 @@ write.csv(sports_QAAcc_2015_vertices, file = "sports_QAAcc_2015_vertices.csv", r
 write.csv(sports_QAAcc_2014_vertices, file = "sports_QAAcc_2014_vertices.csv", row.names = F)
 write.csv(sports_QAAcc_2013_vertices, file = "sports_QAAcc_2013_vertices.csv", row.names = F)
 write.csv(sports_QAAcc_2012_vertices, file = "sports_QAAcc_2012_vertices.csv", row.names = F)
+
+
+######### PLOT FOR 2012 ########
+
+QA_ACC_2012_graph = graph.data.frame(QA_Accepted_2012, sports_QAAcc_2012_users, directed = T)
+
+
+V(QA_ACC_2012_graph)$shape<-"circle"
+V(QA_ACC_2012_graph)$size = (degree(QA_ACC_2012_graph,mode = 'out')/10)+2
+V(QA_ACC_2012_graph)$label = NA
+V(QA_ACC_2012_graph)$label.cex = 0.5
+
+l <- layout.fruchterman.reingold(QA_ACC_2012_graph)
+
+E(QA_ACC_2012_graph)$color = 'grey'
+components = clusters (QA_ACC_2012_graph)$ membership
+colours = sample (rainbow(max(components)+1))
+V (QA_ACC_2012_graph)$color = colours[components +1]
+
+E(QA_ACC_2012_graph)$arrow.size <- 0.04
+
+plot(QA_ACC_2012_graph,
+     layout = l*100,
+     vertex.shape='circle',
+     #vertex.label = ifelse(degree(QA_ACC_2012_graph,mode = 'out') > 30, V(QA_ACC_2012_graph)$label, NA),
+     vertex.label.color='black',
+     vertex.label.font = 2,
+     main='QA Accepted 2012 network - OUT degree highlighted')
