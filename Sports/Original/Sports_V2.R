@@ -10,7 +10,7 @@ temp = list.files(pattern="*.csv")
 list2env(
   lapply(setNames(temp, make.names(gsub("*.csv$", "", temp))), 
          read.csv), envir = .GlobalEnv)
-rm(temp)
+rm(temp,PostLinks, PostHistory, Badges, Comments, Tags, Votes)
 
 # cleanse tables
 Users = Users[-1,]
@@ -317,6 +317,9 @@ in_degree_evo = merge(in_degree_evo, temp_2013, all.x = T)
 in_degree_evo = merge(in_degree_evo, temp_2012, all.x = T)
 in_degree_evo = in_degree_evo %>% arrange(desc(in_degree_2016))
 
+rm(temp_2015, temp_2014, temp_2013, temp_2012)
+
+###** Export CSVs **###
 write.csv(out_degree_evo, file = "out_degree_evo.csv", row.names = F)
 write.csv(in_degree_evo, file = "in_degree_evo.csv", row.names = F)
 write.csv(sports_QAAcc_2016_users, file = "sports_QAAcc_2016_users.csv", row.names = F)
@@ -325,4 +328,3 @@ write.csv(sports_QAAcc_2015_vertices, file = "sports_QAAcc_2015_vertices.csv", r
 write.csv(sports_QAAcc_2014_vertices, file = "sports_QAAcc_2014_vertices.csv", row.names = F)
 write.csv(sports_QAAcc_2013_vertices, file = "sports_QAAcc_2013_vertices.csv", row.names = F)
 write.csv(sports_QAAcc_2012_vertices, file = "sports_QAAcc_2012_vertices.csv", row.names = F)
-
