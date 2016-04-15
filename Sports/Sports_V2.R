@@ -330,8 +330,12 @@ V(QA_Accepted_2012_graph)$size = (degree(QA_Accepted_2012_graph,mode = 'out')/10
 V(QA_Accepted_2012_graph)$label = V(QA_Accepted_2012_graph)$name
 V(QA_Accepted_2012_graph)$label.cex = 0.5
 l <- layout.fruchterman.reingold(QA_Accepted_2012_graph)
+E(QA_Accepted_2012_graph)$color = 'grey'
+components = clusters (QA_Accepted_2012_graph)$ membership
+colours = sample (rainbow(max(components)+1))
+V (QA_Accepted_2012_graph)$color = colours[components +1]
 # out_degree
-E(QA_Accepted_2012_graph)$arrow.size <- 0.02
+E(QA_Accepted_2012_graph)$arrow.size <- 0.04
 plot(QA_Accepted_2012_graph,
      layout=l *10,
      vertex.shape='circle',
@@ -340,7 +344,7 @@ plot(QA_Accepted_2012_graph,
      vertex.label.font = 2,
      main='QA accepted network 2012 - OUT degree highlighted')
 # in_degree
-E(QA_Accepted_2012_graph)$arrow.size <- 0.02
+E(QA_Accepted_2012_graph)$arrow.size <- 0.04
 plot(QA_Accepted_2012_graph,
      layout=layout.fruchterman.reingold,
      vertex.size = (degree(QA_Accepted_2012_graph,mode = 'in')/10)+1,
@@ -349,6 +353,7 @@ plot(QA_Accepted_2012_graph,
      vertex.label.color='black',
      vertex.label.font = 2,
      main='QA accepted network 2012 - IN degree highlighted')
+rm(colours, components, l)
 
 # 2013
 # preparing
@@ -360,8 +365,12 @@ V(QA_Accepted_2013_graph)$size = (degree(QA_Accepted_2013_graph,mode = 'out')/10
 V(QA_Accepted_2013_graph)$label = V(QA_Accepted_2013_graph)$name
 V(QA_Accepted_2013_graph)$label.cex = 0.5
 l <- layout.fruchterman.reingold(QA_Accepted_2013_graph)
+E(QA_Accepted_2013_graph)$color = 'grey'
+components = clusters (QA_Accepted_2013_graph)$ membership
+colours = sample (rainbow(max(components)+1))
+V (QA_Accepted_2013_graph)$color = colours[components +1]
 # out_degree
-E(QA_Accepted_2013_graph)$arrow.size <- 0.02
+E(QA_Accepted_2013_graph)$arrow.size <- 0.04
 plot(QA_Accepted_2013_graph,
      layout=l *10,
      vertex.shape='circle',
@@ -370,7 +379,7 @@ plot(QA_Accepted_2013_graph,
      vertex.label.font = 2,
      main='QA accepted network 2013 - OUT degree highlighted')
 # in_degree
-E(QA_Accepted_2013_graph)$arrow.size <- 0.02
+E(QA_Accepted_2013_graph)$arrow.size <- 0.04
 plot(QA_Accepted_2013_graph,
      layout=layout.fruchterman.reingold,
      vertex.size = (degree(QA_Accepted_2013_graph,mode = 'in')/10)+1,
@@ -379,6 +388,7 @@ plot(QA_Accepted_2013_graph,
      vertex.label.color='black',
      vertex.label.font = 2,
      main='QA accepted network 2013 - IN degree highlighted')
+rm(colours, components, l)
 
 # 2014
 # preparing
@@ -390,8 +400,12 @@ V(QA_Accepted_2014_graph)$size = (degree(QA_Accepted_2014_graph,mode = 'out')/10
 V(QA_Accepted_2014_graph)$label = V(QA_Accepted_2014_graph)$name
 V(QA_Accepted_2014_graph)$label.cex = 0.5
 l <- layout.fruchterman.reingold(QA_Accepted_2014_graph)
+E(QA_Accepted_2014_graph)$color = 'grey'
+components = clusters (QA_Accepted_2014_graph)$ membership
+colours = sample (rainbow(max(components)+1))
+V (QA_Accepted_2014_graph)$color = colours[components +1]
 # out_degree
-E(QA_Accepted_2014_graph)$arrow.size <- 0.02
+E(QA_Accepted_2014_graph)$arrow.size <- 0.04
 plot(QA_Accepted_2014_graph,
      layout=l *10,
      vertex.shape='circle',
@@ -400,7 +414,7 @@ plot(QA_Accepted_2014_graph,
      vertex.label.font = 2,
      main='QA accepted network 2014 - OUT degree highlighted')
 # in_degree
-E(QA_Accepted_2014_graph)$arrow.size <- 0.02
+E(QA_Accepted_2014_graph)$arrow.size <- 0.04
 plot(QA_Accepted_2014_graph,
      layout=layout.fruchterman.reingold,
      vertex.size = (degree(QA_Accepted_2014_graph,mode = 'in')/10)+1,
@@ -409,6 +423,7 @@ plot(QA_Accepted_2014_graph,
      vertex.label.color='black',
      vertex.label.font = 2,
      main='QA accepted network 2014 - IN degree highlighted')
+rm(colours, components, l)
 
 # 2015
 # preparing
@@ -420,8 +435,12 @@ V(QA_Accepted_2015_graph)$size = (degree(QA_Accepted_2015_graph,mode = 'out')/10
 V(QA_Accepted_2015_graph)$label = V(QA_Accepted_2015_graph)$name
 V(QA_Accepted_2015_graph)$label.cex = 0.5
 l <- layout.fruchterman.reingold(QA_Accepted_2015_graph)
+E(QA_Accepted_2015_graph)$color = 'grey'
+components = clusters (QA_Accepted_2015_graph)$ membership
+colours = sample (rainbow(max(components)+1))
+V (QA_Accepted_2015_graph)$color = colours[components +1]
 # out_degree
-E(QA_Accepted_2015_graph)$arrow.size <- 0.02
+E(QA_Accepted_2015_graph)$arrow.size <- 0.04
 plot(QA_Accepted_2015_graph,
      layout=l *10,
      vertex.shape='circle',
@@ -430,7 +449,7 @@ plot(QA_Accepted_2015_graph,
      vertex.label.font = 2,
      main='QA accepted network 2015 - OUT degree highlighted')
 # in_degree
-E(QA_Accepted_2015_graph)$arrow.size <- 0.02
+E(QA_Accepted_2015_graph)$arrow.size <- 0.04
 plot(QA_Accepted_2015_graph,
      layout=layout.fruchterman.reingold,
      vertex.size = (degree(QA_Accepted_2015_graph,mode = 'in')/10)+1,
@@ -439,6 +458,7 @@ plot(QA_Accepted_2015_graph,
      vertex.label.color='black',
      vertex.label.font = 2,
      main='QA accepted network 2015 - IN degree highlighted')
+rm(colours, components, l)
 
 # 2016
 # preparing
@@ -450,8 +470,12 @@ V(QA_Accepted_2016_graph)$size = (degree(QA_Accepted_2016_graph,mode = 'out')/10
 V(QA_Accepted_2016_graph)$label = V(QA_Accepted_2016_graph)$name
 V(QA_Accepted_2016_graph)$label.cex = 0.5
 l <- layout.fruchterman.reingold(QA_Accepted_2016_graph)
+E(QA_Accepted_2016_graph)$color = 'grey'
+components = clusters (QA_Accepted_2016_graph)$ membership
+colours = sample (rainbow(max(components)+1))
+V (QA_Accepted_2016_graph)$color = colours[components +1]
 # out_degree
-E(QA_Accepted_2016_graph)$arrow.size <- 0.02
+E(QA_Accepted_2016_graph)$arrow.size <- 0.04
 plot(QA_Accepted_2016_graph,
      layout=l *10,
      vertex.shape='circle',
@@ -460,7 +484,7 @@ plot(QA_Accepted_2016_graph,
      vertex.label.font = 2,
      main='QA accepted network 2016 - OUT degree highlighted')
 # in_degree
-E(QA_Accepted_2016_graph)$arrow.size <- 0.02
+E(QA_Accepted_2016_graph)$arrow.size <- 0.04
 plot(QA_Accepted_2016_graph,
      layout=layout.fruchterman.reingold,
      vertex.size = (degree(QA_Accepted_2016_graph,mode = 'in')/10)+1,
@@ -469,7 +493,150 @@ plot(QA_Accepted_2016_graph,
      vertex.label.color='black',
      vertex.label.font = 2,
      main='QA accepted network 2016 - IN degree highlighted')
+rm(colours, components, l)
 
+###*** Interactive Networks QAAcc ***###
+library(networkD3)
+
+# 2012
+nl = cbind(idn=factor(sports_QAAcc_2012_users$user_id, 
+                      levels=sports_QAAcc_2012_users$user_id), 
+           sports_QAAcc_2012_users)
+
+el = sports_QAAcc_2012_edges
+temp = nl %>% select(user_id, idn)
+el = merge(el, temp, by.x = 'to', by.y = 'user_id', all.x = T)
+el$to = el$idn
+el$idn = NULL
+el = merge(el, temp, by.x = 'from', by.y = 'user_id', all.x = T)
+el$from = el$idn
+el$idn = NULL
+el = data.frame(from=as.numeric(el$from)-1, 
+                to=as.numeric(el$to)-1 )
+nl$Info = paste0(nl$X_DisplayName,', R:', nl$X_Reputation,'-U:', nl$X_UpVotes, '-D:', nl$X_DownVotes)
+forceNetwork(Links = el, Nodes = nl, Source="from", Target="to",
+             NodeID = "Info", Group = "out_degree",linkWidth = 1,
+             linkColour = "black", fontSize=28, zoom=T, legend=T,
+             Nodesize=6, opacity = 1, charge=-600, 
+             width = 1200, height = 1000)
+forceNetwork(Links = el, Nodes = nl, Source="from", Target="to",
+             NodeID = "Info", Group = "in_degree",linkWidth = 1,
+             linkColour = "black", fontSize=28, zoom=T, legend=T,
+             Nodesize=6, opacity = 1, charge=-600, 
+             width = 1200, height = 1000)
+rm(temp, nl, el)
+
+# 2013
+nl = cbind(idn=factor(sports_QAAcc_2013_users$user_id, 
+                      levels=sports_QAAcc_2013_users$user_id), 
+           sports_QAAcc_2013_users)
+
+el = sports_QAAcc_2013_edges
+temp = nl %>% select(user_id, idn)
+el = merge(el, temp, by.x = 'to', by.y = 'user_id', all.x = T)
+el$to = el$idn
+el$idn = NULL
+el = merge(el, temp, by.x = 'from', by.y = 'user_id', all.x = T)
+el$from = el$idn
+el$idn = NULL
+el = data.frame(from=as.numeric(el$from)-1, 
+                to=as.numeric(el$to)-1 )
+nl$Info = paste0(nl$X_DisplayName,', R:', nl$X_Reputation,'-U:', nl$X_UpVotes, '-D:', nl$X_DownVotes)
+forceNetwork(Links = el, Nodes = nl, Source="from", Target="to",
+             NodeID = "Info", Group = "out_degree",linkWidth = 1,
+             linkColour = "black", fontSize=28, zoom=T, legend=T,
+             Nodesize=6, opacity = 1, charge=-600, 
+             width = 1200, height = 1000)
+forceNetwork(Links = el, Nodes = nl, Source="from", Target="to",
+             NodeID = "Info", Group = "in_degree",linkWidth = 1,
+             linkColour = "black", fontSize=28, zoom=T, legend=T,
+             Nodesize=6, opacity = 1, charge=-600, 
+             width = 1200, height = 1000)
+rm(temp, nl, el)
+
+# 2014
+nl = cbind(idn=factor(sports_QAAcc_2014_users$user_id, 
+                      levels=sports_QAAcc_2014_users$user_id), 
+           sports_QAAcc_2014_users)
+
+el = sports_QAAcc_2014_edges
+temp = nl %>% select(user_id, idn)
+el = merge(el, temp, by.x = 'to', by.y = 'user_id', all.x = T)
+el$to = el$idn
+el$idn = NULL
+el = merge(el, temp, by.x = 'from', by.y = 'user_id', all.x = T)
+el$from = el$idn
+el$idn = NULL
+el = data.frame(from=as.numeric(el$from)-1, 
+                to=as.numeric(el$to)-1 )
+nl$Info = paste0(nl$X_DisplayName,', R:', nl$X_Reputation,'-U:', nl$X_UpVotes, '-D:', nl$X_DownVotes)
+forceNetwork(Links = el, Nodes = nl, Source="from", Target="to",
+             NodeID = "Info", Group = "out_degree",linkWidth = 1,
+             linkColour = "black", fontSize=28, zoom=T, legend=T,
+             Nodesize=6, opacity = 1, charge=-600, 
+             width = 1200, height = 1000)
+forceNetwork(Links = el, Nodes = nl, Source="from", Target="to",
+             NodeID = "Info", Group = "in_degree",linkWidth = 1,
+             linkColour = "black", fontSize=28, zoom=T, legend=T,
+             Nodesize=6, opacity = 1, charge=-600, 
+             width = 1200, height = 1000)
+rm(temp, nl, el)
+
+# 2015
+nl = cbind(idn=factor(sports_QAAcc_2015_users$user_id, 
+                      levels=sports_QAAcc_2015_users$user_id), 
+           sports_QAAcc_2015_users)
+
+el = sports_QAAcc_2015_edges
+temp = nl %>% select(user_id, idn)
+el = merge(el, temp, by.x = 'to', by.y = 'user_id', all.x = T)
+el$to = el$idn
+el$idn = NULL
+el = merge(el, temp, by.x = 'from', by.y = 'user_id', all.x = T)
+el$from = el$idn
+el$idn = NULL
+el = data.frame(from=as.numeric(el$from)-1, 
+                to=as.numeric(el$to)-1 )
+nl$Info = paste0(nl$X_DisplayName,', R:', nl$X_Reputation,'-U:', nl$X_UpVotes, '-D:', nl$X_DownVotes)
+forceNetwork(Links = el, Nodes = nl, Source="from", Target="to",
+             NodeID = "Info", Group = "out_degree",linkWidth = 1,
+             linkColour = "black", fontSize=28, zoom=T, legend=T,
+             Nodesize=6, opacity = 1, charge=-600, 
+             width = 1200, height = 1000)
+forceNetwork(Links = el, Nodes = nl, Source="from", Target="to",
+             NodeID = "Info", Group = "in_degree",linkWidth = 1,
+             linkColour = "black", fontSize=28, zoom=T, legend=T,
+             Nodesize=6, opacity = 1, charge=-600, 
+             width = 1200, height = 1000)
+rm(temp, nl, el)
+
+# 2016
+nl = cbind(idn=factor(sports_QAAcc_2016_users$user_id, 
+                      levels=sports_QAAcc_2016_users$user_id), 
+           sports_QAAcc_2016_users)
+
+el = sports_QAAcc_2016_edges
+temp = nl %>% select(user_id, idn)
+el = merge(el, temp, by.x = 'to', by.y = 'user_id', all.x = T)
+el$to = el$idn
+el$idn = NULL
+el = merge(el, temp, by.x = 'from', by.y = 'user_id', all.x = T)
+el$from = el$idn
+el$idn = NULL
+el = data.frame(from=as.numeric(el$from)-1, 
+                to=as.numeric(el$to)-1 )
+nl$Info = paste0(nl$X_DisplayName,', R:', nl$X_Reputation,'-U:', nl$X_UpVotes, '-D:', nl$X_DownVotes)
+forceNetwork(Links = el, Nodes = nl, Source="from", Target="to",
+             NodeID = "Info", Group = "out_degree",linkWidth = 1,
+             linkColour = "black", fontSize=28, zoom=T, legend=T,
+             Nodesize=6, opacity = 1, charge=-600, 
+             width = 1200, height = 1000)
+forceNetwork(Links = el, Nodes = nl, Source="from", Target="to",
+             NodeID = "Info", Group = "in_degree",linkWidth = 1,
+             linkColour = "black", fontSize=28, zoom=T, legend=T,
+             Nodesize=6, opacity = 1, charge=-600, 
+             width = 1200, height = 1000)
+rm(temp, nl, el)
 
 ###** Export CSVs **###
 write.csv(out_degree_evo, file = "out_degree_evo.csv", row.names = F)
@@ -480,31 +647,3 @@ write.csv(sports_QAAcc_2015_vertices, file = "sports_QAAcc_2015_vertices.csv", r
 write.csv(sports_QAAcc_2014_vertices, file = "sports_QAAcc_2014_vertices.csv", row.names = F)
 write.csv(sports_QAAcc_2013_vertices, file = "sports_QAAcc_2013_vertices.csv", row.names = F)
 write.csv(sports_QAAcc_2012_vertices, file = "sports_QAAcc_2012_vertices.csv", row.names = F)
-
-
-######### PLOT FOR 2012 ########
-
-QA_ACC_2012_graph = graph.data.frame(QA_Accepted_2012, sports_QAAcc_2012_users, directed = T)
-
-
-V(QA_ACC_2012_graph)$shape<-"circle"
-V(QA_ACC_2012_graph)$size = (degree(QA_ACC_2012_graph,mode = 'out')/10)+2
-V(QA_ACC_2012_graph)$label = NA
-V(QA_ACC_2012_graph)$label.cex = 0.5
-
-l <- layout.fruchterman.reingold(QA_ACC_2012_graph)
-
-E(QA_ACC_2012_graph)$color = 'grey'
-components = clusters (QA_ACC_2012_graph)$ membership
-colours = sample (rainbow(max(components)+1))
-V (QA_ACC_2012_graph)$color = colours[components +1]
-
-E(QA_ACC_2012_graph)$arrow.size <- 0.04
-
-plot(QA_ACC_2012_graph,
-     layout = l*100,
-     vertex.shape='circle',
-     #vertex.label = ifelse(degree(QA_ACC_2012_graph,mode = 'out') > 30, V(QA_ACC_2012_graph)$label, NA),
-     vertex.label.color='black',
-     vertex.label.font = 2,
-     main='QA Accepted 2012 network - OUT degree highlighted')
