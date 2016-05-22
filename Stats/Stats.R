@@ -32,17 +32,25 @@ library(lubridate)
 
 # set the directory equals to the location of orginal CSV files
 
+# load sentiment
+Sentiment = read.csv('sentiment.csv', header = T)
+
 # backup original
 UsersOri = Users
 PostsOri = Posts
 
 # remove admin
+Users = UsersOri
 Users = Users[-1,]
 Users = Users %>% rename(UserId = Id)
 
 # filter posts with owner
 Posts = PostsOri
 Posts = Posts %>% filter(!is.na(OwnerUserId))
+
+# join sentiment
+Posts$Id = as.numeric(levels(Posts$Id)[Posts$Id])
+Posts = left_join(Posts, Sentiment)
 
 # filter questions
 Questions = Posts %>% filter(PostTypeId == 1)
@@ -61,7 +69,7 @@ Questions = Questions %>%
          QuestionBody = Body, QuestionOwnerUserId = OwnerUserId,
          QuestionTitle = Title, QuestionAnswerCount = AnswerCount,
          QuestionTags = Tags, QuestionFavoriteCount = FavoriteCount,
-         QuestionCommentCount = CommentCount)
+         QuestionCommentCount = CommentCount, QuestionSentiment = Sentiment)
 Questions$QuestionTotalTags = sapply(regmatches(
   Questions$QuestionTags, gregexpr("<", Questions$QuestionTags)), length)
 
@@ -85,16 +93,13 @@ Answers = Answers %>%
   rename(QuestionId = ParentId, AnswerId = Id,
          AnswerCreationDate = CreationDate, AnswerScore = Score,
          AnswerOwnerUserId = OwnerUserId, AnswerBody = Body,
-         AnswerCommentCount = CommentCount)
-
+         AnswerCommentCount = CommentCount, AnswerSentiment = Sentiment)
 
 # join questions answers
 Answers$QuestionId = as.numeric(levels(Answers$QuestionId)[Answers$QuestionId])
-Questions$QuestionId = as.numeric(levels(Questions$QuestionId)[Questions$QuestionId])
 QA = inner_join(Answers, Questions)
 
 # dependent variable accepted
-QA$AnswerId = as.numeric(levels(QA$AnswerId)[QA$AnswerId])
 QA$AcceptedAnswerId = as.numeric(levels(QA$AcceptedAnswerId)[QA$AcceptedAnswerId])
 QA$Accepted = ifelse(QA$AnswerId == QA$AcceptedAnswerId, 1, 0)
 QA$Accepted = ifelse(is.na(QA$Accepted), 0, QA$Accepted)
@@ -167,3 +172,42 @@ master$Location = NULL
 master$AcceptedAnswerId = NULL
 master$AnswerBody = NULL
 master$QuestionBody = NULL
+master$Age = NULL
+
+# factor conversion
+str(master)
+master$AnswerScore = as.numeric(levels(master$AnswerScore)[master$AnswerScore])
+master$AnswerCommentCount = as.numeric(levels(master$AnswerCommentCount)[master$AnswerCommentCount])
+master$UpVotes = as.numeric(levels(master$UpVotes)[master$UpVotes])
+master$DownVotes = as.numeric(levels(master$DownVotes)[master$DownVotes])
+master$Views = as.numeric(levels(master$Views)[master$Views])
+master$Reputation = as.numeric(levels(master$Reputation)[master$Reputation])
+master$QuestionScore = as.numeric(levels(master$QuestionScore)[master$QuestionScore])
+master$QuestionCommentCount = as.numeric(levels(master$QuestionCommentCount)[master$QuestionCommentCount])
+master$QuestionViewCount = as.numeric(levels(master$QuestionViewCount)[master$QuestionViewCount])
+master$QuestionAnswerCount = as.numeric(levels(master$QuestionAnswerCount)[master$QuestionAnswerCount])
+master$QuestionFavoriteCount = as.numeric(levels(master$QuestionFavoriteCount)[master$QuestionFavoriteCount])
+
+# difftime conversion
+master$TimeFromRegister = as.numeric(master$TimeFromRegister)
+master$TimeDifference = as.numeric(master$TimeDifference)
+
+# replace NA with 0
+master$QuestionFavoriteCount = ifelse(
+  is.na(master$QuestionFavoriteCount), 0, master$QuestionFavoriteCount)
+master$AboutMeLength = ifelse(
+  is.na(master$AboutMeLength), 0, master$AboutMeLength)
+
+# check for NA in master
+sapply(master, function(x) sum(is.na(x)))
+
+# ratio between acc and all
+master$in_degree_ratio = master$in_degree_acc / master$in_degree_all
+master$in_degree_ratio = ifelse(is.na(master$in_degree_ratio), 0, master$in_degree_ratio)
+master$out_degree_ratio = master$out_degree_acc / master$out_degree_all
+
+# running logistic regression
+train = master
+train$AnswerId = NULL
+logreg = glm(Accepted ~ ., data=train, family = 'gaussian')
+summary(logreg)
