@@ -128,7 +128,7 @@ stats_v_acc$out_degree_acc = degree(stats_g_acc, mode = 'out')
 stats_v = left_join(stats_v, stats_v_acc)
 stats_v$in_degree_acc = ifelse(is.na(stats_v$in_degree_acc), 0, stats_v$in_degree_acc)
 stats_v$out_degree_acc = ifelse(is.na(stats_v$out_degree_acc), 0, stats_v$out_degree_acc)
-stats_v$page_rank = page.rank(stats_g)$vector
+stats_v$page_rank = page.rank(stats_g, damping = 0.1)$vector
 stats_v = stats_v %>% rename(UserId = name)
 
 # create sna table
@@ -141,6 +141,7 @@ SNA$LastAccessDate = NULL
 
 # create master table
 SNA = SNA %>% rename(AnswerOwnerUserId = UserId)
+SNA$Reputation = as.numeric(levels(SNA$Reputation)[SNA$Reputation])
 QA$AnswerOwnerUserId = as.numeric(levels(QA$AnswerOwnerUserId)[QA$AnswerOwnerUserId])
 master = left_join(QA, SNA, by = 'AnswerOwnerUserId')
 
@@ -181,7 +182,6 @@ master$AnswerCommentCount = as.numeric(levels(master$AnswerCommentCount)[master$
 master$UpVotes = as.numeric(levels(master$UpVotes)[master$UpVotes])
 master$DownVotes = as.numeric(levels(master$DownVotes)[master$DownVotes])
 master$Views = as.numeric(levels(master$Views)[master$Views])
-master$Reputation = as.numeric(levels(master$Reputation)[master$Reputation])
 master$QuestionScore = as.numeric(levels(master$QuestionScore)[master$QuestionScore])
 master$QuestionCommentCount = as.numeric(levels(master$QuestionCommentCount)[master$QuestionCommentCount])
 master$QuestionViewCount = as.numeric(levels(master$QuestionViewCount)[master$QuestionViewCount])
@@ -211,3 +211,20 @@ train = master
 train$AnswerId = NULL
 logreg = glm(Accepted ~ ., data=train, family = 'gaussian')
 summary(logreg)
+
+# create users importance 
+Importance = SNA %>% select(Reputation, out_degree_all, out_degree_acc, page_rank)
+
+# feature scaling
+Importance$Reputation = Importance$Reputation / diff(range(Importance$Reputation))
+Importance$out_degree_all = Importance$out_degree_all / diff(range(Importance$out_degree_all))
+Importance$out_degree_acc = Importance$out_degree_acc / diff(range(Importance$out_degree_acc))
+Importance$page_rank = Importance$page_rank / diff(range(Importance$page_rank))
+
+# plotting
+plot(log(Importance$Reputation), log(Importance$page_rank), xlab = 'log(Reputation)', ylab = 'log(PageRank)', main = 'Reputation vs PageRank')
+plot(log(Importance$Reputation), log(Importance$out_degree_all), xlab = 'log(Reputation)', ylab = 'log(Out Degree for All)', main = 'Reputation vs Out Degree for All Answers')
+plot(log(Importance$Reputation), log(Importance$out_degree_acc), xlab = 'log(Reputation)', ylab = 'log(Out Degree for Accepted)', main = 'Reputation vs Out Degree for Accepted Answers')
+
+# correlation
+cor_mat = cor(Importance, method = 'pearson')
