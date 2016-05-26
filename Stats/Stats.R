@@ -201,11 +201,6 @@ master$AboutMeLength = ifelse(
 # check for NA in master
 sapply(master, function(x) sum(is.na(x)))
 
-# ratio between acc and all
-master$in_degree_ratio = master$in_degree_acc / master$in_degree_all
-master$in_degree_ratio = ifelse(is.na(master$in_degree_ratio), 0, master$in_degree_ratio)
-master$out_degree_ratio = master$out_degree_acc / master$out_degree_all
-
 # running logistic regression
 train = master
 train$AnswerId = NULL
