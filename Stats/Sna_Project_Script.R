@@ -1,48 +1,14 @@
-
-# function to convert
-require(XML)
-require(plyr)
-search()
-
-xmlDataDumpToDataFrame<- function(xmlFilePath){
-  
-  doc <- xmlParse(xmlFilePath)  
-  xmlList<- xmlToList(doc)
-  
-  total<-length(xmlList)
-  print(paste0("Parsing file : ", xmlFilePath ))
-  progressBar <- txtProgressBar(min = 0, max = total, style = 3)
-  data<-data.frame()
-  
-  for(i in 1: total){
-    data <- rbind.fill(data,as.data.frame(as.list( xmlList[[i]])))
-    setTxtProgressBar(progressBar, i)
-  }
-  
-  close(progressBar)
-  print(paste0("created object size : ", format(object.size(data), units= "Mb") ))
-  return(data)
-}
-
-Users <- xmlDataDumpToDataFrame("Users.xml")
-save(Users, file = 'users.RData')
-
 library(dplyr)
 library(lubridate)
 
-# set the directory equals to the location of orginal CSV files
-
-# load sentiment
+# load data
+Users = read.csv('users.csv', header = T)
+Posts = read.csv('posts.csv', header = T)
 Sentiment = read.csv('sentiment.csv', header = T)
 
 # backup original
 UsersOri = Users
 PostsOri = Posts
-
-# remove admin
-Users = UsersOri
-Users = Users[-1,]
-Users = Users %>% rename(UserId = Id)
 
 # filter posts with owner
 Posts = PostsOri
@@ -111,24 +77,22 @@ QA$TimeDifference = ymd_hms(as.character(QA$AnswerCreationDate)) -
 # filter accepted answers
 QA_Accept = QA %>% filter(Accepted == 1)
 
-# graph
+# graph/network processing
 library(igraph)
 stats_g = QA %>% select(AnswerOwnerUserId, QuestionOwnerUserId)
 stats_g = graph.data.frame(stats_g, directed = T)
 stats_v = get.data.frame(stats_g, what='vertices')
-stats_v$in_degree_all = degree(stats_g, mode = 'in')
-stats_v$out_degree_all = degree(stats_g, mode = 'out')
-
+stats_v$in_degree_all = degree(stats_g, mode = 'in') # in degree for all answers
+stats_v$out_degree_all = degree(stats_g, mode = 'out') # out degree for all answers
 stats_g_acc = QA_Accept %>% select(AnswerOwnerUserId, QuestionOwnerUserId)
 stats_g_acc = graph.data.frame(stats_g_acc, directed = T)
 stats_v_acc = get.data.frame(stats_g_acc, what='vertices')
-stats_v_acc$in_degree_acc = degree(stats_g_acc, mode = 'in')
-stats_v_acc$out_degree_acc = degree(stats_g_acc, mode = 'out')
-
-stats_v = left_join(stats_v, stats_v_acc)
+stats_v_acc$in_degree_acc = degree(stats_g_acc, mode = 'in') # in degree for accepted answers
+stats_v_acc$out_degree_acc = degree(stats_g_acc, mode = 'out') # out degree for accepted answers
+stats_v = left_join(stats_v, stats_v_acc) 
 stats_v$in_degree_acc = ifelse(is.na(stats_v$in_degree_acc), 0, stats_v$in_degree_acc)
 stats_v$out_degree_acc = ifelse(is.na(stats_v$out_degree_acc), 0, stats_v$out_degree_acc)
-stats_v$page_rank = page.rank(stats_g, damping = 0.1)$vector
+stats_v$page_rank = page.rank(stats_g, damping = 0.1)$vector # page rank
 stats_v = stats_v %>% rename(UserId = name)
 
 # create sna table
@@ -200,6 +164,10 @@ master$AboutMeLength = ifelse(
 
 # check for NA in master
 sapply(master, function(x) sum(is.na(x)))
+
+# ratio between acc and all
+master$in_degree_ratio = master$in_degree_acc / master$in_degree_all
+master$in_degree_ratio = ifelse(is.na(master$in_degree_ratio), 0, master$in_degree_ratio)
 
 # running logistic regression
 train = master
