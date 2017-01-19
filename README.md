@@ -1,5 +1,6 @@
-# SNAproject
-repository for course social network analysis
+We present a study analyzing how to recognize influential users in the Stats.StackExchange network. We used the knowledge to help users becoming experts in the community by analyzing what makes an answer to be more likely accepted.
+
+Below is the list of data that we use for this study:
 
  - Files:
    - **badges**.xml
