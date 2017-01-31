@@ -3,11 +3,11 @@
 We present a study analyzing how to recognize influential users in the Stats.StackExchange network. We used the knowledge to help users becoming experts in the community by analyzing what makes an answer to be more likely accepted.
 
 Original Data: 
-https://archive.org/download/stackexchange/stats.stackexchange.com.7z
+- https://archive.org/download/stackexchange/stats.stackexchange.com.7z
 
 Pre-Processed Data: 
-https://mega.nz/#!6MpDFJCQ!LnUIM6G0DmDNWDZoL7qq9AcA7Lzu8JSzJgi_oLjNwbI
-https://mega.nz/#!XUIGiZ6C!W-3mevPMxggcG-hlp261LHI03dU5sd55zValDeEDLqk
+- https://mega.nz/#!6MpDFJCQ!LnUIM6G0DmDNWDZoL7qq9AcA7Lzu8JSzJgi_oLjNwbI
+- https://mega.nz/#!XUIGiZ6C!W-3mevPMxggcG-hlp261LHI03dU5sd55zValDeEDLqk
 
 Below is the detailed description of the data:
 
